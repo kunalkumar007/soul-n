@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
+import { Shell } from "@/components/shell";
 import "./globals.css";
-
 export const metadata: Metadata = {
-  title: "Soul N",
-  description: "Soul N — built with Next.js.",
+  title: "Soul Sync — A little spark. A real connection.",
+  description:
+    "Find your people, make meaningful connections, and get a little guidance for your love life.",
 };
-
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en">
+      <body>
+        <Shell>{children}</Shell>
+      </body>
     </html>
   );
 }

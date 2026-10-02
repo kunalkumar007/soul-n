@@ -1,0 +1,43 @@
+export const profiles = [
+  {
+    id: "maya",
+    name: "Maya",
+    age: 26,
+    location: "Brooklyn, NY",
+    job: "Designer & weekend explorer",
+    interests: ["Art & design", "Coffee", "Travel"],
+    match: 96,
+    bio: "Usually finding a new coffee spot, getting lost in a gallery, or planning my next little adventure. Looking for someone to share the everyday magic with.",
+  },
+  {
+    id: "alex",
+    name: "Alex",
+    age: 28,
+    location: "Manhattan, NY",
+    job: "Music lover. Excellent listener.",
+    interests: ["Live music", "Cooking", "Outdoors"],
+    match: 94,
+    bio: "I make a pretty good pasta and a very questionable playlist. Here for honest conversations, spontaneous walks, and something that feels easy.",
+  },
+  {
+    id: "sophie",
+    name: "Sophie",
+    age: 25,
+    location: "Queens, NY",
+    job: "A book in one hand, coffee in the other",
+    interests: ["Reading", "Coffee", "Photography"],
+    match: 92,
+    bio: "Collecting books, film photos, and stories. My ideal Sunday includes a bookstore, a slow lunch, and someone who makes me laugh.",
+  },
+  {
+    id: "daniel",
+    name: "Daniel",
+    age: 29,
+    location: "Brooklyn, NY",
+    job: "Big adventures. Little moments.",
+    interests: ["Travel", "Fitness", "Cooking"],
+    match: 91,
+    bio: "Happiest on a hiking trail or around a table with friends. Looking for a teammate for the big adventures and the little everyday moments.",
+  },
+];
+export type Profile = (typeof profiles)[number];
