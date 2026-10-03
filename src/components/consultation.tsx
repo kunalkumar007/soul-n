@@ -10,7 +10,7 @@ const topics = [
     category: "DATING & SELF-DISCOVERY",
     description:
       "First dates, mixed signals, or starting over. Find clarity in your next chapter.",
-    symbol: "✳",
+    icon: "spark",
     color: "pink",
     length: "45 min",
     price: "49",
@@ -20,7 +20,7 @@ const topics = [
     category: "RELATIONSHIPS & CONNECTION",
     description:
       "Build better communication and make more room for the two of you.",
-    symbol: "♡",
+    icon: "heart",
     color: "lavender",
     length: "60 min",
     price: "69",
@@ -30,7 +30,7 @@ const topics = [
     category: "HEALING & MOVING FORWARD",
     description:
       "Let go of what was, reconnect with yourself, and feel ready for what’s next.",
-    symbol: "☀",
+    icon: "compass",
     color: "yellow",
     length: "45 min",
     price: "49",
@@ -97,10 +97,6 @@ export function Consultation() {
   }
   return (
     <>
-      <div className="welcome-line">
-        <span>Sometimes, a conversation changes everything.</span>
-        <span className="today-note">A SAFE SPACE FOR YOUR HEART</span>
-      </div>
       <section className="consult-hero">
         <div>
           <span className="eyebrow">
@@ -111,7 +107,6 @@ export function Consultation() {
             Let’s talk
             <br />
             <span>about love.</span>
-            <span className="consult-star">✳</span>
           </h1>
           <p>
             Whatever love looks like right now, you don’t have to figure
@@ -131,7 +126,8 @@ export function Consultation() {
             <Image
               src="/images/therapist.jpg"
               fill
-              sizes="330px"
+              sizes="(max-width: 700px) 85vw, 35vw"
+              preload
               alt="Portrait representing your relationship guide"
             />
             <div className="expert-sticker">
@@ -167,10 +163,10 @@ export function Consultation() {
               key={topic.title}
             >
               <div className="session-symbol">
-                {topic.symbol}
-                <span>
-                  <Icon name="diagonal" size={25} />
+                <span className="session-topic-icon">
+                  <Icon name={topic.icon} size={27} />
                 </span>
+                <Icon name="diagonal" size={22} />
               </div>
               <span className="eyebrow">{topic.category}</span>
               <h3>{topic.title}</h3>

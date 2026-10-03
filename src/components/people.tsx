@@ -54,7 +54,6 @@ export function People({
               : mode === "discover"
                 ? "Your kind of people."
                 : "A spark could start here."}
-            <span className="title-spark">✳</span>
           </h2>
           <p>
             {mode === "connections"
@@ -66,22 +65,34 @@ export function People({
           <Link href="/discover" className="text-link">
             Discover everyone <Icon name="arrow" size={17} />
           </Link>
-        ) : (
+        ) : mode === "connections" ? (
           <button
             className="secondary-button"
-            onClick={() => setFilters(!filters)}
+            aria-expanded={filters}
+            aria-controls="people-filters"
+            onClick={() => setFilters((open) => !open)}
           >
             <Icon name="filter" size={17} /> Interests
           </button>
+        ) : (
+          <span className="people-result-count">
+            {visible.length} {visible.length === 1 ? "person" : "people"} to
+            discover
+          </span>
         )}
       </div>
       {(filters || mode === "discover") && (
-        <div className="filter-row">
+        <div
+          className="filter-row"
+          id="people-filters"
+          aria-label="Filter by interest"
+        >
           {["Everyone", "Coffee", "Travel", "Cooking", "Art & design"].map(
             (item) => (
               <button
                 key={item}
                 className={`filter-chip ${interest === item ? "selected" : ""}`}
+                aria-pressed={interest === item}
                 onClick={() => setInterest(item)}
               >
                 {item}
@@ -110,7 +121,7 @@ export function People({
                 src={`/images/${profile.id}.jpg`}
                 alt={profile.name}
                 fill
-                sizes="(max-width: 650px) 90vw, (max-width: 1000px) 40vw, 22vw"
+                sizes="(max-width: 700px) 90vw, (max-width: 1200px) 40vw, 27vw"
               />
               <span className="match-badge">
                 <Icon name="spark" size={12} />
@@ -122,7 +133,7 @@ export function People({
                   <Icon name="check" size={10} />
                 </span>
                 <small>
-                  <Icon name="pin" size={12} />
+                  <Icon name="pin" size={14} />
                   {profile.location}
                 </small>
               </span>
@@ -136,6 +147,11 @@ export function People({
               </div>
               <button
                 className={`connect-button ${connected.includes(profile.id) ? "connected" : ""}`}
+                aria-label={
+                  connected.includes(profile.id)
+                    ? `Remove connection with ${profile.name}`
+                    : `Connect with ${profile.name}`
+                }
                 onClick={() => connect(profile.id)}
               >
                 <Icon
@@ -143,7 +159,10 @@ export function People({
                   size={16}
                 />
                 {connected.includes(profile.id) ? "Connected" : "Connect"}
-                <Icon name="diagonal" size={14} />
+                <Icon
+                  name={connected.includes(profile.id) ? "close" : "arrow"}
+                  size={16}
+                />
               </button>
             </div>
           </article>
@@ -151,20 +170,35 @@ export function People({
       </div>
       {!visible.length && (
         <div className="empty-state">
-          <Icon name="heart" size={40} />
+          <span className="empty-state-art">
+            <Icon name="heart" size={42} />
+          </span>
           <h3>
-            {mode === "connections"
-              ? "Your circle starts with a hello."
-              : "A new interest, a new possibility."}
+            {interest !== "Everyone"
+              ? "A different interest, a new possibility."
+              : mode === "connections"
+                ? "Your circle starts with a hello."
+                : "A new interest, a new possibility."}
           </h3>
           <p>
-            {mode === "connections"
-              ? "Discover someone you like and select Connect to save them here."
-              : "Try another interest to meet more people."}
+            {interest !== "Everyone"
+              ? `No ${mode === "connections" ? "saved connections" : "people"} match this interest. Try another one or see everyone.`
+              : mode === "connections"
+                ? "Discover someone you like and select Connect to save them here."
+                : "Try another interest to meet more people."}
           </p>
-          <Link className="primary-button" href="/discover">
-            Discover people <Icon name="arrow" size={16} />
-          </Link>
+          {interest !== "Everyone" ? (
+            <button
+              className="primary-button"
+              onClick={() => setInterest("Everyone")}
+            >
+              See everyone <Icon name="arrow" size={16} />
+            </button>
+          ) : (
+            <Link className="primary-button" href="/discover">
+              Discover people <Icon name="arrow" size={16} />
+            </Link>
+          )}
         </div>
       )}
       {selected && (
@@ -178,6 +212,7 @@ export function People({
               width={440}
               height={360}
               alt={selected.name}
+              loading="eager"
             />
             <div className="profile-location">
               <Icon name="pin" size={16} />

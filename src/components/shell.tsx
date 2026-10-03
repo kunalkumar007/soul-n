@@ -15,7 +15,7 @@ import {
 const navigation = [
   { path: "/", label: "Home", icon: "home" },
   { path: "/discover", label: "Discover", icon: "compass" },
-  { path: "/connections", label: "My connections", icon: "heart" },
+  { path: "/connections", label: "Connections", icon: "heart" },
   { path: "/consultation", label: "Consultation", icon: "chat" },
 ];
 export function Shell({ children }: { children: ReactNode }) {
@@ -43,10 +43,9 @@ function PersonalShell({ children }: { children: ReactNode }) {
           <span className="brand-icon">
             <Icon name="heart" size={25} />
           </span>
-          soul<span>sync</span>
-          <span className="brand-dot">®</span>
+          SOUL SYNC
         </Link>
-        <div className="sidebar-caption">A LITTLE CLOSER TO YOUR PERSON</div>
+        <div className="sidebar-caption">YOUR SPACE FOR SOMETHING REAL</div>
         <nav aria-label="Main navigation">
           {navigation.map((item) => (
             <Link
@@ -60,21 +59,19 @@ function PersonalShell({ children }: { children: ReactNode }) {
               {item.path === "/connections" && connections.length > 0 && (
                 <span className="nav-count">{connections.length}</span>
               )}
-              {item.path === "/consultation" && (
-                <span className="new-tag">NEW</span>
-              )}
             </Link>
           ))}
         </nav>
         <div className="sidebar-bottom">
           <div className="side-note">
-            <span className="note-spark">✳</span>
+            <span className="note-spark">
+              <Icon name="chat" size={26} />
+            </span>
             <h3>
-              Your next chapter
-              <br />
-              starts with you.
+              A little clarity.
+              <br />A lot of heart.
             </h3>
-            <p>A little guidance can go a long way.</p>
+            <p>Find a conversation that feels right for you.</p>
             <Link href="/consultation">
               Let’s talk <Icon name="diagonal" size={16} />
             </Link>
@@ -106,6 +103,13 @@ function PersonalShell({ children }: { children: ReactNode }) {
       </aside>
       <div className="workspace">
         <header className="topbar">
+          <Link
+            href="/"
+            className="space-mobile-brand"
+            aria-label="Soul Sync home"
+          >
+            <Icon name="heart" size={23} /> SOUL SYNC
+          </Link>
           <div className="breadcrumb">
             Your space <span>/</span>{" "}
             <strong>
@@ -114,9 +118,16 @@ function PersonalShell({ children }: { children: ReactNode }) {
             </strong>
           </div>
           <div className="topbar-right">
+            <button
+              className="icon-button space-mobile-support"
+              aria-label="Help & support"
+              onClick={() => setPanel("Help & support")}
+            >
+              <Icon name="help" />
+            </button>
             <span className="live-note">
               <i />
-              Good things are happening
+              Your personal space
             </span>
             <button
               className="icon-button notification-button"
@@ -124,7 +135,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
               onClick={() => setPanel("Your updates")}
             >
               <Icon name="bell" />
-              <i />
+              {bookings.length > 0 && <i />}
             </button>
             <button
               className="top-avatar"
@@ -171,8 +182,11 @@ function PersonalShell({ children }: { children: ReactNode }) {
             <>
               <p className="muted">Your latest Soul Sync activity</p>
               {bookings.length ? (
-                bookings.map((booking, index) => (
-                  <div className="update-item" key={index}>
+                bookings.map((booking) => (
+                  <div
+                    className="update-item"
+                    key={`${booking.date}-${booking.time}`}
+                  >
                     <Icon name="check" />
                     <div>
                       <strong>{booking.topic}</strong>
@@ -198,8 +212,8 @@ function PersonalShell({ children }: { children: ReactNode }) {
               <div className="update-item">
                 <Icon name="heart" />
                 <p>
-                  Select a profile and choose Connect to save someone to My
-                  connections. You can connect with more than one person.
+                  Select a profile and choose Connect to save someone to
+                  Connections. You can connect with more than one person.
                 </p>
               </div>
               <div className="update-item">

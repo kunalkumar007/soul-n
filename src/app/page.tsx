@@ -6,100 +6,83 @@ import { profiles } from "@/lib/profiles";
 export default function Home() {
   return (
     <>
-      <section className="landing-hero-region">
-        <div className="home-hero">
-          <div className="hero-copy">
-            <div className="eyebrow">
-              <span className="little-heart">♥</span> LESS SWIPING. MORE
-              FEELING.
-            </div>
-            <h1>
-              Find your people.
-              <br />
-              Feel the{" "}
-              <span className="spark-word">
-                spark.
-                <svg viewBox="0 0 270 24" aria-hidden="true">
-                  <path d="M4 15C70 1 164 2 258 9M12 21C91 7 169 7 266 14" />
-                </svg>
-              </span>
-            </h1>
-            <p>
-              Real people. Meaningful connections. A little guidance
-              <br className="desktop-break" /> when you need it. Your love story
-              starts here.
-            </p>
-            <div className="hero-actions">
-              <Link href="/discover" className="primary-button">
-                Find your people <Icon name="arrow" size={19} />
-              </Link>
-              <Link href="/consultation" className="hero-secondary">
-                Let’s talk love <Icon name="diagonal" size={17} />
-              </Link>
-            </div>
-            <div className="social-proof">
-              <div className="avatar-stack">
-                {["maya", "alex", "sophie", "daniel"].map((name) => (
-                  <Image
-                    key={name}
-                    src={`/images/${name}.jpg`}
-                    alt=""
-                    width={31}
-                    height={31}
-                  />
-                ))}
-              </div>
-              <span>
-                <strong>Real people. Open hearts.</strong>
-                <br />
-                One very good place to start.
-              </span>
-            </div>
-          </div>
-          <div className="hero-art">
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <span className="art-star star-one">✳</span>
-            <span className="art-star star-two">✧</span>
-            <div className="polaroid back-photo">
-              <Image
-                src="/images/friends.jpg"
-                alt="Friends sharing a happy moment outdoors"
-                fill
-                sizes="300px"
-              />
-              <span>good energy only ♡</span>
-            </div>
-            <div className="polaroid front-photo">
-              <Image
-                src="/images/couple.jpg"
-                alt="Two hands forming a heart in the sunset"
-                fill
-                sizes="320px"
-              />
-              <span>the start of something real.</span>
-            </div>
-            <div className="love-sticker">
-              <Icon name="heart" size={48} />
-            </div>
-            <span className="floating-label">
-              <i />A little chemistry. A lot of possibility.
-            </span>
-            <svg
-              className="hand-drawn-arrow"
-              viewBox="0 0 100 90"
-              aria-hidden="true"
+      <section className="connection-hero" aria-labelledby="hero-title">
+        <Image
+          className="connection-hero-image"
+          src="/images/lounge-hero.webp"
+          alt="Three people enjoying a conversation in a warmly lit lounge"
+          fill
+          sizes="100vw"
+          preload
+        />
+        <div className="connection-hero-shade" />
+        <svg
+          className="connection-thread"
+          viewBox="0 0 700 500"
+          fill="none"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient
+              id="thread-color"
+              x1="0"
+              y1="0"
+              x2="700"
+              y2="500"
+              gradientUnits="userSpaceOnUse"
             >
-              <path d="M10 10c45-15 77 20 49 37S14 25 39 30s49 22 39 50m-16-8 17 9 8-17" />
-            </svg>
+              <stop stopColor="#ff1488" />
+              <stop offset="1" stopColor="#ffb089" />
+            </linearGradient>
+          </defs>
+          <path d="M20 330C30 140 200 20 360 65s172 226 295 212 174-130 190-204" />
+        </svg>
+        <div className="connection-hero-content">
+          <span className="eyebrow">REAL PEOPLE. DEEPER CONNECTIONS.</span>
+          <h1 id="hero-title">
+            More Than
+            <br />
+            <span>Just a Match.</span>
+          </h1>
+          <p>
+            A space for open-minded people to meet, connect, and explore
+            meaningful connections — on your terms.
+          </p>
+          <div className="connection-hero-actions">
+            <Link href="/discover" className="primary-button">
+              Find your people <Icon name="arrow" size={21} />
+            </Link>
+            <Link href="/consultation" className="connection-secondary">
+              Let’s talk love <Icon name="diagonal" size={17} />
+            </Link>
+          </div>
+          <div className="connection-welcome">
+            <div className="connection-avatars" aria-hidden="true">
+              {profiles.slice(0, 3).map((profile) => (
+                <Image
+                  key={profile.id}
+                  src={`/images/${profile.id}.jpg`}
+                  alt=""
+                  width={40}
+                  height={40}
+                />
+              ))}
+            </div>
+            <p>
+              Come as you are.
+              <br />
+              <span>There’s room for your kind of connection.</span>
+            </p>
           </div>
         </div>
-        <div className="landing-hero-bottom">
-          <span>A little spark. A real connection.</span>
+        <div className="connection-hero-bottom">
+          <span>A little chemistry. A lot of possibility.</span>
           <a href="#how-it-works">
-            THERE’S MORE TO THE STORY <Icon name="down" size={17} />
+            <span>SCROLL TO FEEL THE DIFFERENCE</span>
+            <span className="scroll-circle">
+              <Icon name="down" size={17} />
+            </span>
           </a>
-          <span>COME AS YOU ARE. ♡</span>
         </div>
       </section>
       <div className="values-strip">
@@ -133,8 +116,10 @@ export default function Home() {
         </div>
         <div className="landing-steps">
           <article>
-            <span className="step-art">✳</span>
-            <span className="eyebrow">01 · SHOW UP AS YOU</span>
+            <span className="step-art">
+              <Icon name="spark" size={24} />
+            </span>
+            <span className="eyebrow">SHOW UP AS YOU</span>
             <h3>Your quirks are welcome.</h3>
             <p>
               Meet people who want something real. Bring your interests, your
@@ -142,8 +127,10 @@ export default function Home() {
             </p>
           </article>
           <article>
-            <span className="step-art">♡</span>
-            <span className="eyebrow">02 · FOLLOW THE SPARK</span>
+            <span className="step-art">
+              <Icon name="heart" size={24} />
+            </span>
+            <span className="eyebrow">FOLLOW THE SPARK</span>
             <h3>Start with a little hello.</h3>
             <p>
               Find someone who catches your eye. Connect with a few people and
@@ -151,8 +138,10 @@ export default function Home() {
             </p>
           </article>
           <article>
-            <span className="step-art">↗</span>
-            <span className="eyebrow">03 · FIND YOUR WAY</span>
+            <span className="step-art">
+              <Icon name="chat" size={24} />
+            </span>
+            <span className="eyebrow">FIND YOUR WAY</span>
             <h3>A little guidance helps.</h3>
             <p>
               Dating questions? Relationship crossroads? Find a conversation
@@ -167,7 +156,6 @@ export default function Home() {
             <span className="eyebrow">GOOD PEOPLE. REAL POSSIBILITIES.</span>
             <h2>
               People, <em>not just profiles.</em>
-              <span className="title-spark">✳</span>
             </h2>
             <p>
               The coffee lovers, the big dreamers, the “one more song” people.
@@ -190,16 +178,22 @@ export default function Home() {
                 <Image
                   src={`/images/${profile.id}.jpg`}
                   fill
-                  sizes="(max-width: 650px) 45vw, 25vw"
+                  sizes="(max-width: 700px) 44vw, 22vw"
                   alt={`${profile.name}, a member of the demo community`}
                 />
                 <span className="portrait-caption">
                   {profile.name}, {profile.age}
-                  <Icon name="diagonal" size={22} />
+                  <span className="portrait-arrow">
+                    <Icon name="diagonal" size={18} />
+                  </span>
                 </span>
               </div>
               <p>{profile.job}</p>
-              <span>{profile.interests.join(" · ")}</span>
+              <div className="landing-interests">
+                {profile.interests.slice(0, 2).map((interest) => (
+                  <span key={interest}>{interest}</span>
+                ))}
+              </div>
             </Link>
           ))}
         </div>
@@ -208,32 +202,49 @@ export default function Home() {
           <span>No perfect people. Just real possibilities.</span>
         </div>
       </section>
-      <section className="consult-banner">
-        <div className="banner-art">
-          <div className="bubble-one">
-            <Icon name="heart" size={34} />
-          </div>
-          <div className="bubble-two">
-            <span>let’s talk.</span>
-            <i>♥</i>
-          </div>
-          <span className="banner-spark">✳</span>
-        </div>
-        <div className="banner-copy">
-          <span className="eyebrow">A LITTLE CLARITY. A LOT OF HEART.</span>
-          <h2>
-            Love doesn’t come with a manual.
+      <section
+        className="landing-guidance landing-section"
+        aria-labelledby="guidance-title"
+      >
+        <div className="guidance-copy">
+          <span className="eyebrow">WHEN A LITTLE GUIDANCE HELPS</span>
+          <h2 id="guidance-title">
+            Love is personal.
             <br />
-            But it can come with a little guidance.
+            Your guidance
+            <br />
+            <em>should be, too.</em>
           </h2>
           <p>
-            Talk it out with someone who gets it. Our relationship experts are
-            here for you.
+            Dating questions, relationship crossroads, or a fresh start. Find a
+            conversation that meets you where you are.
           </p>
+          <Link href="/consultation" className="primary-button">
+            Explore consultations <Icon name="diagonal" size={18} />
+          </Link>
+          <span className="guidance-session">
+            <Icon name="video" size={18} />
+            One-to-one video sessions · At your pace
+          </span>
         </div>
-        <Link href="/consultation" className="primary-button">
-          Explore consultations <Icon name="diagonal" size={17} />
-        </Link>
+        <div className="guidance-visual">
+          <div className="guidance-portrait">
+            <Image
+              src="/images/therapist.jpg"
+              alt="Portrait representing your relationship guide"
+              fill
+              sizes="(max-width: 700px) 80vw, 35vw"
+            />
+          </div>
+          <div className="guidance-note">
+            <Icon name="chat" size={24} />
+            <p>
+              Room to talk.
+              <br />
+              <em>Space to grow.</em>
+            </p>
+          </div>
+        </div>
       </section>
       <section className="landing-final">
         <span className="eyebrow">YOUR STORY IS STILL UNFOLDING</span>
@@ -245,12 +256,6 @@ export default function Home() {
         <Link href="/discover" className="primary-button">
           Let’s find your people <Icon name="arrow" size={20} />
         </Link>
-        <span className="final-spark" aria-hidden="true">
-          ✳
-        </span>
-        <span className="final-heart" aria-hidden="true">
-          ♡
-        </span>
       </section>
     </>
   );
