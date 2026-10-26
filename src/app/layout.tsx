@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/shell";
+import { Chatbot } from "@/components/chatbot";
 import "./globals.css";
 import "./personal-space.css";
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth">
       <body>
         <Shell>{children}</Shell>
+        <Chatbot />
       </body>
     </html>
   );

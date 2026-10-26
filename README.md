@@ -25,6 +25,31 @@ npm start
 
 The starter uses system fonts so production builds do not need to download fonts.
 
+## Chatbot enquiries
+
+The floating Soul Sync guide collects a visitor’s name, details, and requirements,
+then lets them review and edit their answers before sending them to the team by
+email. Draft answers stay in this browser and resume across pages and reloads.
+Start over clears that draft; it does not recall an email already sent.
+
+Email settings are deliberately placeholders for now. Copy `.env.example` to
+`.env.local` and replace `CHATBOT_TO_EMAIL`, `CHATBOT_FROM_EMAIL`, and
+`RESEND_API_KEY` when ready. The sender must belong to a domain verified in
+[Resend](https://resend.com/docs/send-with-nextjs). Set the same three variables
+in the hosting dashboard for deployment, then restart/redeploy the app. Keep
+them server-only (no `NEXT_PUBLIC_` prefix).
+
+With settings missing, sending shows “Email delivery isn’t connected yet” and
+keeps the answers for retry. No email is sent and no success is claimed.
+The API validates submissions and sends plain-text email to the configured
+recipient only. The browser supplies no sender or recipient. Retries use the
+same [Resend idempotency key](https://resend.com/docs/dashboard/emails/idempotency-keys)
+to prevent duplicate emails within the provider’s 24-hour window. API success
+means the provider accepted the message, not a confirmed inbox delivery.
+
+Run the chatbot behavior and mocked email tests with `npm run test:chatbot`.
+The public endpoint does not maintain a distributed rate limiter.
+
 ## Hostinger automatic deployments
 
 Use Hostinger's managed **Deploy Web App** option on a Business or Cloud plan.
