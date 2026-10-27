@@ -7,6 +7,8 @@ import {
   emptyIntake,
   getIntakeStep,
   intakeQuestions,
+  intakeFields,
+  migrateIntake,
   validIntake,
   validSubmission,
   validateAnswer,
@@ -29,8 +31,9 @@ const { POST } = await import("../src/app/api/chat-intake/route.ts");
 
 const submission = {
   name: "Jamie",
-  details: "I enjoy hiking and live music.",
-  requirement: "New friendships and a meaningful connection.",
+  email: "jamie@example.com",
+  phone: "+91 98765 43210",
+  requirement: "Lifestyle guidance and understanding my boundaries.",
   submissionId: "51e35790-f064-4dbc-a954-7f4f22b743d6",
 };
 const config = {
@@ -82,9 +85,9 @@ function providerResponse(value = { id: "email-test-id" }, status = 200) {
   );
 }
 
-test("the chat asks name, details, and requirement in order", () => {
+test("the chat asks nickname, email, optional phone, and guidance topic in order", () => {
   let intake = { ...emptyIntake };
-  for (const field of ["name", "details", "requirement"]) {
+  for (const field of intakeFields) {
     assert.equal(getIntakeStep(intake), field);
     intake = answerIntake(intake, field, `  ${submission[field]}  `);
     assert.equal(intake[field], submission[field]);
@@ -97,34 +100,44 @@ test("the chat asks name, details, and requirement in order", () => {
 test("empty answers, skipped steps, and rapid repeated answers cannot advance the chat", () => {
   assert.equal(answerIntake(emptyIntake, "name", " \n "), emptyIntake);
   assert.equal(
-    answerIntake(emptyIntake, "details", "Some details"),
+    answerIntake(emptyIntake, "email", "jamie@example.com"),
     emptyIntake,
   );
   const named = answerIntake(emptyIntake, "name", "Jamie");
   assert.equal(answerIntake(named, "name", "Jamie"), named);
-  assert.equal(getIntakeStep(named), "details");
+  assert.equal(getIntakeStep(named), "email");
 });
 
 test("all answer limits accept the boundary and reject longer answers", () => {
   for (const [field, question] of Object.entries(intakeQuestions)) {
-    assert.equal(validateAnswer(field, "a".repeat(question.maxLength)), "");
+    const boundary =
+      field === "email"
+        ? `${"a".repeat(64)}@${"b".repeat(63)}.${"c".repeat(63)}.${"d".repeat(61)}`
+        : field === "phone"
+          ? `+${" ".repeat(question.maxLength - 16)}123456789012345`
+          : "a".repeat(question.maxLength);
+    assert.equal(validateAnswer(field, boundary), "");
     assert.notEqual(
       validateAnswer(field, "a".repeat(question.maxLength + 1)),
       "",
     );
-    assert.notEqual(validateAnswer(field, "   "), "");
+    assert.equal(validateAnswer(field, "   ") === "", field === "phone");
   }
 });
 
 test("stored drafts round-trip and invalid stored state is rejected", () => {
   assert.equal(validIntake(JSON.parse(JSON.stringify(emptyIntake))), true);
-  assert.equal(validIntake({ ...submission, confirmed: true }), true);
+  assert.equal(
+    validIntake({ ...emptyIntake, ...submission, confirmed: true }),
+    true,
+  );
   for (const value of [
     null,
     [],
     {},
     { ...emptyIntake, name: 42 },
-    { ...emptyIntake, details: "Skipped the name" },
+    { ...emptyIntake, email: "invalid" },
+    { ...emptyIntake, phoneSkipped: true, phone: "+91 98765 43210" },
     { ...emptyIntake, name: "  Jamie  " },
     { ...emptyIntake, name: "J".repeat(81) },
     { ...emptyIntake, confirmed: true },
@@ -137,7 +150,7 @@ test("stored drafts round-trip and invalid stored state is rejected", () => {
 
 test("submission validation rejects missing, oversized, and incorrectly typed data", () => {
   assert.equal(validSubmission(submission), true);
-  for (const field of ["name", "details", "requirement", "submissionId"]) {
+  for (const field of ["name", "email", "requirement", "submissionId"]) {
     assert.equal(validSubmission({ ...submission, [field]: "" }), false);
     assert.equal(validSubmission({ ...submission, [field]: 7 }), false);
   }
@@ -149,7 +162,7 @@ test("submission validation rejects missing, oversized, and incorrectly typed da
 });
 
 test("editing invalidates a previous delivery only when the answer changes", () => {
-  const sent = { ...submission, confirmed: true };
+  const sent = { ...emptyIntake, ...submission, confirmed: true };
   assert.equal(editIntake(sent, "name", " Jamie "), sent);
   const edited = editIntake(sent, "name", "Taylor");
   assert.equal(edited.name, "Taylor");
@@ -163,13 +176,127 @@ test("editing invalidates a previous delivery only when the answer changes", () 
   );
 });
 
+test("phone can be skipped, survives reload, and can be added or removed in review", () => {
+  let intake = answerIntake(emptyIntake, "name", submission.name);
+  intake = answerIntake(intake, "email", submission.email);
+  intake = answerIntake(intake, "phone", "");
+  assert.equal(intake.phoneSkipped, true);
+  assert.equal(getIntakeStep(intake), "requirement");
+  intake = JSON.parse(JSON.stringify(intake));
+  assert.equal(validIntake(intake), true);
+  assert.equal(getIntakeStep(intake), "requirement");
+  intake = answerIntake(intake, "requirement", submission.requirement);
+  assert.equal(getIntakeStep(intake), null);
+  assert.equal(answerIntake(intake, "phone", ""), intake);
+  assert.equal(
+    validSubmission({ ...intake, submissionId: submission.submissionId }),
+    true,
+  );
+  intake = editIntake(intake, "phone", submission.phone);
+  assert.equal(intake.phoneSkipped, false);
+  assert.equal(intake.phone, submission.phone);
+  intake = editIntake(
+    { ...intake, confirmed: true, submissionId: submission.submissionId },
+    "phone",
+    "",
+  );
+  assert.equal(intake.phoneSkipped, true);
+  assert.equal(intake.confirmed, false);
+  assert.equal(intake.submissionId, "");
+  assert.equal(validIntake(intake), true);
+});
+
+test("email is required and phone is optional at both validation boundaries", () => {
+  for (const email of [
+    "",
+    "plain",
+    "a@b",
+    "a b@example.com",
+    "a@example.com\r\nBcc: other@example.com",
+    "a@example.com,other@example.com",
+    ".a@example.com",
+    "a..b@example.com",
+    "a@-example.com",
+    `${"a".repeat(65)}@example.com`,
+  ]) {
+    assert.notEqual(validateAnswer("email", email), "");
+    assert.equal(validSubmission({ ...submission, email }), false);
+  }
+  for (const phone of [
+    undefined,
+    "",
+    "  ",
+    "+91 98765 43210",
+    "(212) 555-0100",
+    "1234567",
+    "123456789012345",
+  ]) {
+    assert.equal(validSubmission({ ...submission, phone }), true);
+  }
+  for (const phone of [
+    null,
+    1234567,
+    "abc1234567",
+    "123456",
+    "1234567890123456",
+    "++1234567890",
+  ]) {
+    assert.equal(validSubmission({ ...submission, phone }), false);
+  }
+});
+
+test("earlier drafts retain answers and notes but require email and a fresh review", () => {
+  const legacy = {
+    name: "Jamie",
+    details: "A previous note",
+    requirement: submission.requirement,
+    confirmed: true,
+    submissionId: submission.submissionId,
+  };
+  let intake = migrateIntake(JSON.parse(JSON.stringify(legacy)));
+  assert.equal(validIntake(intake), true);
+  assert.equal(intake.name, legacy.name);
+  assert.equal(intake.requirement, legacy.requirement);
+  assert.equal(intake.previousDetails, legacy.details);
+  assert.equal(intake.confirmed, false);
+  assert.equal(intake.submissionId, "");
+  assert.equal(getIntakeStep(intake), "email");
+  intake = answerIntake(intake, "email", submission.email);
+  intake = answerIntake(intake, "phone", "");
+  assert.equal(getIntakeStep(intake), null);
+  assert.equal(migrateIntake(intake), intake);
+  assert.equal(
+    validIntake(
+      migrateIntake({
+        name: "",
+        details: "Out of order",
+        requirement: "",
+        confirmed: false,
+        submissionId: "",
+      }),
+    ),
+    false,
+  );
+});
+
+test("the route and email accept an enquiry without a phone number", async () => {
+  configureEmail();
+  providerResponse();
+  const withoutPhone = { ...submission };
+  delete withoutPhone.phone;
+  assert.equal((await POST(request(withoutPhone))).status, 200);
+  const email = JSON.parse(globalThis.fetch.mock.calls[0].arguments[1].body);
+  assert.match(email.text, /Phone:\nNot provided/);
+  assert.equal(email.reply_to, submission.email);
+});
+
 test("email contains all answers as plain text and uses only the configured recipient", async () => {
   providerResponse();
   await sendIntakeEmail(
     {
       ...submission,
       to: "untrusted@example.com",
-      details: "<script>not HTML</script>",
+      requirement: "<script>not HTML</script>",
     },
     config,
   );
@@ -181,7 +308,9 @@ test("email contains all answers as plain text and uses only the configured reci
   assert.equal(email.html, undefined);
   assert.match(email.text, /Jamie/);
   assert.match(email.text, /<script>not HTML<\/script>/);
-  assert.ok(email.text.includes(submission.requirement));
+  assert.ok(email.text.includes(submission.email));
+  assert.ok(email.text.includes(submission.phone));
+  assert.equal(email.reply_to, submission.email);
   assert.equal(
     options.headers["Idempotency-Key"],
     `soul-sync-intake/${submission.submissionId}`,
@@ -222,6 +351,9 @@ test("the route rejects foreign origins, invalid content types, and invalid JSON
     [request(submission, { "content-type": "text/plain" }), 415],
     [request("{invalid"), 400],
     [request({ ...submission, name: " " }), 400],
+    [request({ ...submission, email: "" }), 400],
+    [request({ ...submission, email: "invalid" }), 400],
+    [request({ ...submission, phone: "invalid" }), 400],
     [request({ ...submission, requirement: "r".repeat(1501) }), 400],
   ])
     assert.equal((await POST(input)).status, status);

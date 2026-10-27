@@ -550,11 +550,15 @@
   letter-spacing: -3px;
   margin: 22px 0;
 }
+.app-shell .consult-hero > div {
+  min-width: 0;
+}
 .app-shell .consult-hero h1 > span {
   font-family: var(--font-display);
   color: #ff8abb;
   font-weight: 400;
   font-style: italic;
+  white-space: normal;
 }
 .app-shell .consult-hero > div > p {
   color: #d8c0cf;
@@ -1129,7 +1133,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 7px;
-    width: 25%;
+    width: 50%;
     min-height: 75px;
     padding: 10px 4px;
     border-radius: 0;

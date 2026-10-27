@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@/components/icon";
-import { profiles } from "@/lib/profiles";
 
 export default function Home() {
   return (
@@ -38,47 +37,39 @@ export default function Home() {
           <path d="M20 330C30 140 200 20 360 65s172 226 295 212 174-130 190-204" />
         </svg>
         <div className="connection-hero-content">
-          <span className="eyebrow">REAL PEOPLE. DEEPER CONNECTIONS.</span>
+          <span className="eyebrow">SOUL SYNC. NOT A DATING SITE.</span>
           <h1 id="hero-title">
-            More Than
+            More than
             <br />
-            <span>Just a Match.</span>
+            just a match.
+            <br />
+            <span>It’s a kink.</span>
           </h1>
           <p>
-            A space for open-minded people to meet, connect, and explore
-            meaningful connections — on your terms.
+            We’re not here to find love for you. We’re here to let you explore
+            your dark desires and fantasies.
           </p>
           <div className="connection-hero-actions">
-            <Link href="/discover" className="primary-button">
-              Find your people <Icon name="arrow" size={21} />
+            <Link href="/consultation" className="primary-button">
+              Explore your desires <Icon name="arrow" size={21} />
             </Link>
-            <Link href="/consultation" className="connection-secondary">
-              Let’s talk love <Icon name="diagonal" size={17} />
-            </Link>
+            <a href="#privacy" className="connection-secondary">
+              Your privacy comes first <Icon name="diagonal" size={17} />
+            </a>
           </div>
           <div className="connection-welcome">
-            <div className="connection-avatars" aria-hidden="true">
-              {profiles.slice(0, 3).map((profile) => (
-                <Image
-                  key={profile.id}
-                  src={`/images/${profile.id}.jpg`}
-                  alt=""
-                  width={40}
-                  height={40}
-                />
-              ))}
-            </div>
+            <Icon name="lock" size={25} />
             <p>
-              Come as you are.
+              No profile. No pictures.
               <br />
-              <span>There’s room for your kind of connection.</span>
+              <span>Just discussion and guidance, at your pace.</span>
             </p>
           </div>
         </div>
         <div className="connection-hero-bottom">
-          <span>A little chemistry. A lot of possibility.</span>
+          <span>Your curiosity. Your boundaries. Your choice.</span>
           <a href="#how-it-works">
-            <span>SCROLL TO FEEL THE DIFFERENCE</span>
+            <span>EXPLORE AT YOUR PACE</span>
             <span className="scroll-circle">
               <Icon name="down" size={17} />
             </span>
@@ -88,30 +79,34 @@ export default function Home() {
       <div className="values-strip">
         <span>
           <Icon name="heart" size={17} />
-          Real connections, at your pace
+          Explore without judgment
         </span>
         <span>
-          <Icon name="check" size={17} />A space to be yourself
+          <Icon name="lock" size={17} />
+          No public profiles or pictures
         </span>
         <span>
           <Icon name="chat" size={17} />
-          Expert guidance, human touch
+          Personal lifestyle guidance
         </span>
         <span className="strip-end">
-          MORE THAN A MATCH <Icon name="spark" size={16} />
+          YOUR DESIRES. YOUR PACE. <Icon name="spark" size={16} />
         </span>
       </div>
       <section className="landing-how landing-section" id="how-it-works">
         <div className="landing-section-heading">
-          <span className="eyebrow">A DIFFERENT WAY TO FIND YOUR PERSON</span>
+          <span className="eyebrow">WHO CAN CONNECT WITH US?</span>
           <h2>
             Less pressure.
             <br />
             More <em>possibility.</em>
+            <br />
+            Full privacy.
           </h2>
           <p>
-            There’s no formula for falling in love. Just a little curiosity, a
-            little courage, and a place to start.
+            Whether you’re curious about kink, exploring as a couple, or looking
+            for lifestyle support, start with a conversation that respects your
+            comfort and boundaries.
           </p>
         </div>
         <div className="landing-steps">
@@ -119,87 +114,77 @@ export default function Home() {
             <span className="step-art">
               <Icon name="spark" size={24} />
             </span>
-            <span className="eyebrow">SHOW UP AS YOU</span>
-            <h3>Your quirks are welcome.</h3>
+            <span className="eyebrow">FOR THE KINK-CURIOUS</span>
+            <h3>Explore what intrigues you.</h3>
             <p>
-              Meet people who want something real. Bring your interests, your
-              stories, and your beautifully imperfect self.
+              Curious about kinks, desires, or fantasies? Talk through your
+              questions, understand your boundaries, and explore at your own
+              pace.
             </p>
           </article>
           <article>
             <span className="step-art">
               <Icon name="heart" size={24} />
             </span>
-            <span className="eyebrow">FOLLOW THE SPARK</span>
-            <h3>Start with a little hello.</h3>
+            <span className="eyebrow">FOR COUPLES</span>
+            <h3>Bring back a little spark.</h3>
             <p>
-              Find someone who catches your eye. Connect with a few people and
-              take your time getting to know them.
+              Want to spice up your life together? Find space to discuss shared
+              fantasies, communicate openly, and decide what feels right for
+              both of you.
             </p>
           </article>
           <article>
             <span className="step-art">
               <Icon name="chat" size={24} />
             </span>
-            <span className="eyebrow">FIND YOUR WAY</span>
-            <h3>A little guidance helps.</h3>
+            <span className="eyebrow">LIFESTYLE GUIDANCE & SUPPORT</span>
+            <h3>Find a path that fits your life.</h3>
             <p>
-              Dating questions? Relationship crossroads? Find a conversation
-              that gives your love life a little clarity.
+              Your choices can affect your personal and social life. Get
+              guidance to explore thoughtfully, with privacy, consent, and your
+              real-life responsibilities in mind.
             </p>
           </article>
         </div>
       </section>
-      <section className="landing-community landing-section" id="community">
+      <section className="landing-community landing-section" id="privacy">
         <div className="section-heading">
           <div>
-            <span className="eyebrow">GOOD PEOPLE. REAL POSSIBILITIES.</span>
+            <span className="eyebrow">A CONVERSATION, ON YOUR TERMS</span>
             <h2>
-              People, <em>not just profiles.</em>
+              Your desires.
+              <br />
+              <em>Your boundaries.</em>
             </h2>
             <p>
-              The coffee lovers, the big dreamers, the “one more song” people.
-              Your kind of people.
+              You don’t need a public identity to ask a personal question. Use a
+              nickname and share only what you’re comfortable discussing.
             </p>
           </div>
-          <Link href="/discover" className="text-link">
-            Meet the community <Icon name="arrow" size={18} />
+          <Link href="/consultation" className="text-link">
+            Find your guidance <Icon name="arrow" size={18} />
           </Link>
         </div>
-        <div className="landing-portraits">
-          {profiles.map((profile) => (
-            <Link
-              href="/discover"
-              className="landing-portrait"
-              key={profile.id}
-              aria-label={`Discover people like ${profile.name}`}
-            >
-              <div className="landing-portrait-photo">
-                <Image
-                  src={`/images/${profile.id}.jpg`}
-                  fill
-                  sizes="(max-width: 700px) 44vw, 22vw"
-                  alt={`${profile.name}, a member of the demo community`}
-                />
-                <span className="portrait-caption">
-                  {profile.name}, {profile.age}
-                  <span className="portrait-arrow">
-                    <Icon name="diagonal" size={18} />
-                  </span>
-                </span>
-              </div>
-              <p>{profile.job}</p>
-              <div className="landing-interests">
-                {profile.interests.slice(0, 2).map((interest) => (
-                  <span key={interest}>{interest}</span>
-                ))}
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="community-note">
-          <Icon name="heart" size={18} />
-          <span>No perfect people. Just real possibilities.</span>
+        <div className="privacy-promises">
+          <div>
+            <Icon name="lock" size={26} />
+            <h3>No profile.</h3>
+            <p>No account or public identity to create.</p>
+          </div>
+          <div>
+            <Icon name="check" size={26} />
+            <h3>No pictures.</h3>
+            <p>No photo uploads or profile galleries.</p>
+          </div>
+          <div>
+            <Icon name="chat" size={26} />
+            <h3>Just guidance.</h3>
+            <p>
+              Your enquiry is shared with our team only when you choose to send
+              it.
+            </p>
+          </div>
         </div>
       </section>
       <section
@@ -209,15 +194,16 @@ export default function Home() {
         <div className="guidance-copy">
           <span className="eyebrow">WHEN A LITTLE GUIDANCE HELPS</span>
           <h2 id="guidance-title">
-            Love is personal.
+            Kink is personal.
             <br />
             Your guidance
             <br />
             <em>should be, too.</em>
           </h2>
           <p>
-            Dating questions, relationship crossroads, or a fresh start. Find a
-            conversation that meets you where you are.
+            Your fantasies, your comfort, and your life outside this space all
+            matter. Find personal guidance to explore your lifestyle with
+            clarity and care.
           </p>
           <Link href="/consultation" className="primary-button">
             Explore consultations <Icon name="diagonal" size={18} />
@@ -231,7 +217,7 @@ export default function Home() {
           <div className="guidance-portrait">
             <Image
               src="/images/therapist.jpg"
-              alt="Portrait representing your relationship guide"
+              alt="A welcoming lifestyle guide"
               fill
               sizes="(max-width: 700px) 80vw, 35vw"
             />
@@ -239,22 +225,24 @@ export default function Home() {
           <div className="guidance-note">
             <Icon name="chat" size={24} />
             <p>
-              Room to talk.
+              Room to ask.
               <br />
-              <em>Space to grow.</em>
+              <em>Space to explore.</em>
             </p>
           </div>
         </div>
       </section>
       <section className="landing-final">
-        <span className="eyebrow">YOUR STORY IS STILL UNFOLDING</span>
+        <span className="eyebrow">
+          LESS PRESSURE. MORE POSSIBILITY. FULL PRIVACY.
+        </span>
         <h2>
-          Your next chapter
+          Your curiosity
           <br />
-          starts with <em>a hello.</em>
+          starts <em>a conversation.</em>
         </h2>
-        <Link href="/discover" className="primary-button">
-          Let’s find your people <Icon name="arrow" size={20} />
+        <Link href="/consultation" className="primary-button">
+          Let’s explore <Icon name="arrow" size={20} />
         </Link>
       </section>
     </>

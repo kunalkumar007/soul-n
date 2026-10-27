@@ -6,30 +6,30 @@ import { Modal } from "./modal";
 import { useDemoStore, validBookings, type Booking } from "@/lib/demo-store";
 const topics = [
   {
-    title: "Find your dating rhythm",
-    category: "DATING & SELF-DISCOVERY",
+    title: "Explore your kinks",
+    category: "KINKS & SELF-DISCOVERY",
     description:
-      "First dates, mixed signals, or starting over. Find clarity in your next chapter.",
+      "Talk through your curiosity, fantasies, and boundaries in a conversation without judgment.",
     icon: "spark",
     color: "pink",
     length: "45 min",
     price: "49",
   },
   {
-    title: "Grow closer, together",
-    category: "RELATIONSHIPS & CONNECTION",
+    title: "Spice up life together",
+    category: "GUIDANCE FOR COUPLES",
     description:
-      "Build better communication and make more room for the two of you.",
+      "Discuss shared desires, communicate openly, and explore what feels right for both of you.",
     icon: "heart",
     color: "lavender",
     length: "60 min",
     price: "69",
   },
   {
-    title: "Come back to yourself",
-    category: "HEALING & MOVING FORWARD",
+    title: "Find your lifestyle path",
+    category: "LIFESTYLE GUIDANCE & SUPPORT",
     description:
-      "Let go of what was, reconnect with yourself, and feel ready for what’s next.",
+      "Explore your choices thoughtfully, with support for your privacy, personal life, and social boundaries.",
     icon: "compass",
     color: "yellow",
     length: "45 min",
@@ -106,12 +106,12 @@ export function Consultation() {
           <h1>
             Let’s talk
             <br />
-            <span>about love.</span>
+            <span>about your desires.</span>
           </h1>
           <p>
-            Whatever love looks like right now, you don’t have to figure
-            <br className="desktop-break" /> it out alone. A little clarity can
-            change a lot.
+            Kink is personal. Your guidance should be, too. Explore your
+            fantasies and lifestyle questions with care for your comfort,
+            consent, and boundaries.
           </p>
           <a href="#sessions" className="primary-button">
             Find your session <Icon name="arrow" size={18} />
@@ -128,7 +128,7 @@ export function Consultation() {
               fill
               sizes="(max-width: 700px) 85vw, 35vw"
               preload
-              alt="Portrait representing your relationship guide"
+              alt="A welcoming lifestyle guide"
             />
             <div className="expert-sticker">
               a human touch.
@@ -139,7 +139,7 @@ export function Consultation() {
           <div className="expert-caption">
             <div>
               <strong>A space to feel heard.</strong>
-              <span>Support for every chapter of your love life.</span>
+              <span>Personal guidance for your lifestyle questions.</span>
             </div>
             <Icon name="heart" size={24} />
           </div>
@@ -149,7 +149,7 @@ export function Consultation() {
         <div className="section-heading">
           <div>
             <span className="eyebrow">MEET YOURSELF WHERE YOU ARE</span>
-            <h2>What’s on your heart?</h2>
+            <h2>What would you like to explore?</h2>
             <p>Choose a conversation that feels right for you.</p>
           </div>
           <span className="session-note">
@@ -288,7 +288,7 @@ export function Consultation() {
           </div>
           <form className="booking-form" onSubmit={book}>
             <label>
-              Your name
+              Your name or nickname
               <input
                 name="name"
                 placeholder="How should we call you?"

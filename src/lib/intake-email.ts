@@ -20,12 +20,17 @@ export async function sendIntakeEmail(
     body: JSON.stringify({
       from: config.from,
       to: [config.to],
+      reply_to: submission.email.trim(),
       subject: "New Soul Sync chatbot enquiry",
       text: [
         "A visitor shared their details through the Soul Sync chatbot.",
         `Name:\n${submission.name.trim()}`,
-        `About them:\n${submission.details.trim()}`,
+        `Email:\n${submission.email.trim()}`,
+        `Phone:\n${submission.phone?.trim() || "Not provided"}`,
         `What they’re looking for:\n${submission.requirement.trim()}`,
+        ...(submission.previousDetails
+          ? [`Previous draft note:\n${submission.previousDetails}`]
+          : []),
         `Reference: ${submission.submissionId}`,
       ].join("\n\n"),
     }),

@@ -4,9 +4,9 @@ import { Chatbot } from "@/components/chatbot";
 import "./globals.css";
 import "./personal-space.css";
 export const metadata: Metadata = {
-  title: "Soul Sync — A little spark. A real connection.",
+  title: "Soul Sync — Private kink & lifestyle guidance",
   description:
-    "Find your people, make meaningful connections, and get a little guidance for your love life.",
+    "Explore your kinks, desires, and fantasies with personal lifestyle guidance. No public profiles or pictures. Just discussion and support, at your pace.",
 };
 export default function RootLayout({
   children,

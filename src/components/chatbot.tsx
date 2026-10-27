@@ -11,6 +11,8 @@ import {
   intakeFields,
   intakeQuestions,
   intakeStorageKey,
+  isIntakeAnswered,
+  migrateIntake,
   requirementSuggestions,
   validIntake,
   validateAnswer,
@@ -26,6 +28,7 @@ export function Chatbot() {
     intakeStorageKey,
     emptyIntake,
     validIntake,
+    migrateIntake,
   );
   const [editing, setEditing] = useState<IntakeField | null>(null);
   const [resetRequested, setResetRequested] = useState(false);
@@ -186,12 +189,16 @@ export function Chatbot() {
         >
           <div
             className="chat-progress"
-            aria-label={`${intakeFields.filter((field) => intake[field]).length} of 3 questions answered`}
+            aria-label={`${intakeFields.filter((field) => isIntakeAnswered(intake, field)).length} of ${intakeFields.length} steps completed`}
           >
             {intakeFields.map((field) => (
-              <span key={field} data-complete={Boolean(intake[field])}>
-                {intake[field] ? <Icon name="check" size={13} /> : <i />}
-                {intakeQuestions[field].label}
+              <span key={field} data-complete={isIntakeAnswered(intake, field)}>
+                {isIntakeAnswered(intake, field) ? (
+                  <Icon name="check" size={13} />
+                ) : (
+                  <i />
+                )}
+                {intakeQuestions[field].shortLabel}
               </span>
             ))}
           </div>
@@ -214,27 +221,24 @@ export function Chatbot() {
                 <em>A place to start.</em>
               </h3>
               <p>
-                I’m the Soul Sync guide. I’ll ask three quick questions to get
-                to know you and what you’re looking for.
+                I’m the Soul Sync guide. Share a nickname, an email for our
+                reply, and what you’d like to explore. A phone number is
+                optional. No profile or pictures needed.
               </p>
             </div>
             {intakeFields.map((field) => {
               const index = intakeFields.indexOf(field);
-              if (index > 0 && !intake[intakeFields[index - 1]]) return null;
+              if (step && index > intakeFields.indexOf(step)) return null;
               return (
                 <div className="chat-exchange" key={field}>
                   <div className="chat-message chat-message-guide">
                     <span className="chat-speaker">Soul Sync</span>
-                    <p>
-                      {field === "details"
-                        ? `Nice to meet you, ${intake.name}! ${intakeQuestions[field].prompt}`
-                        : intakeQuestions[field].prompt}
-                    </p>
+                    <p>{intakeQuestions[field].prompt}</p>
                   </div>
-                  {intake[field] && (
+                  {isIntakeAnswered(intake, field) && (
                     <div className="chat-message chat-message-user">
                       <span className="chat-speaker">You</span>
-                      <p>{intake[field]}</p>
+                      <p>{intake[field] || "Skipped — email is enough."}</p>
                     </div>
                   )}
                 </div>
@@ -252,14 +256,14 @@ export function Chatbot() {
                 </h3>
                 <p>
                   {sent
-                    ? "Your details are on their way to the Soul Sync team. Explore the community or find a conversation with a relationship guide."
+                    ? `Your enquiry is on its way to the Soul Sync team. We can reply to ${intake.email}.`
                     : "Review your answers, then send them to the Soul Sync team by email."}
                 </p>
                 <dl>
                   {intakeFields.map((field) => (
                     <div key={field}>
                       <dt>{intakeQuestions[field].label}</dt>
-                      <dd>{intake[field]}</dd>
+                      <dd>{intake[field] || "Not provided"}</dd>
                       <button
                         type="button"
                         disabled={sending}
@@ -273,19 +277,18 @@ export function Chatbot() {
                       </button>
                     </div>
                   ))}
+                  {intake.previousDetails && (
+                    <div>
+                      <dt>Note restored from your previous draft</dt>
+                      <dd>{intake.previousDetails}</dd>
+                    </div>
+                  )}
                 </dl>
                 {sent ? (
                   <div className="chat-next-actions">
                     <Link
-                      href="/discover"
-                      className="chat-primary"
-                      onClick={close}
-                    >
-                      Explore connections <Icon name="arrow" size={17} />
-                    </Link>
-                    <Link
                       href="/consultation"
-                      className="chat-secondary"
+                      className="chat-primary"
                       onClick={close}
                     >
                       Explore consultations <Icon name="diagonal" size={15} />
@@ -405,7 +408,7 @@ function ChatAnswer({
   };
 
   return (
-    <form className="chat-composer" onSubmit={submit}>
+    <form className="chat-composer" data-field={field} onSubmit={submit}>
       <div className="chat-composer-label">
         <label htmlFor="chat-answer">
           {editing ? `Edit ${question.label.toLowerCase()}` : question.label}
@@ -430,16 +433,34 @@ function ChatAnswer({
           ))}
         </div>
       )}
-      {field === "name" ? (
-        <input {...inputProps} autoComplete="given-name" />
-      ) : (
+      {field === "requirement" ? (
         <textarea {...inputProps} rows={2} />
+      ) : (
+        <input
+          {...inputProps}
+          type={
+            field === "email" ? "email" : field === "phone" ? "tel" : "text"
+          }
+          autoComplete={
+            field === "name" ? "nickname" : field === "email" ? "email" : "tel"
+          }
+          required={field !== "phone"}
+        />
       )}
       <div className="chat-composer-actions">
         <p id="chat-answer-hint">{question.hint}</p>
         {editing && (
           <button type="button" className="chat-cancel" onClick={onCancel}>
             Cancel
+          </button>
+        )}
+        {field === "phone" && (
+          <button
+            type="button"
+            className="chat-cancel"
+            onClick={() => onAnswer(field, "")}
+          >
+            {editing ? "Remove number" : "Skip phone number"}
           </button>
         )}
         <button

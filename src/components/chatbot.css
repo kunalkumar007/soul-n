@@ -401,3 +401,12 @@
     transition: none;
   }
 }
+@media (max-width: 420px) {
+  .chat-composer[data-field="phone"] .chat-composer-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .chat-composer[data-field="phone"] .chat-composer-actions p {
+    flex-basis: 100%;
+  }
+}

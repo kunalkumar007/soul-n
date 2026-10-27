@@ -27,9 +27,14 @@ The starter uses system fonts so production builds do not need to download fonts
 
 ## Chatbot enquiries
 
-The floating Soul Sync guide collects a visitor’s name, details, and requirements,
-then lets them review and edit their answers before sending them to the team by
-email. Draft answers stay in this browser and resume across pages and reloads.
+The floating Soul Sync guide collects a nickname, required email, optional phone
+number, and guidance topic, then lets visitors review and edit their answers before
+sending them to the team by email. The phone step has an explicit skip option;
+an omitted or blank phone number is also accepted by the API. New enquiries do
+not ask for a personal biography or pictures. Draft answers stay in this browser
+and resume across pages and reloads. Earlier drafts keep their nickname, topic,
+and previous note, require contact details, and show the note at review before
+sending again.
 Start over clears that draft; it does not recall an email already sent.
 
 Email settings are deliberately placeholders for now. Copy `.env.example` to
@@ -42,13 +47,18 @@ them server-only (no `NEXT_PUBLIC_` prefix).
 With settings missing, sending shows “Email delivery isn’t connected yet” and
 keeps the answers for retry. No email is sent and no success is claimed.
 The API validates submissions and sends plain-text email to the configured
-recipient only. The browser supplies no sender or recipient. Retries use the
+recipient only, with the validated visitor email as the reply-to address
+([Resend send-email API](https://resend.com/docs/api-reference/emails/send-email)).
+The browser supplies no sender or recipient. Retries use the
 same [Resend idempotency key](https://resend.com/docs/dashboard/emails/idempotency-keys)
 to prevent duplicate emails within the provider’s 24-hour window. API success
 means the provider accepted the message, not a confirmed inbox delivery.
 
 Run the chatbot behavior and mocked email tests with `npm run test:chatbot`.
 The public endpoint does not maintain a distributed rate limiter.
+
+The site provides kink and lifestyle guidance, without public profiles or matching.
+Legacy `/discover` and `/connections` URLs redirect to the homepage.
 
 ## Hostinger automatic deployments
 

@@ -1,22 +1,15 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { Icon } from "./icon";
 import { Modal } from "./modal";
 import { LandingShell } from "./landing-shell";
-import {
-  useDemoStore,
-  validConnections,
-  validBookings,
-} from "@/lib/demo-store";
+import { useDemoStore, validBookings } from "@/lib/demo-store";
 
 const navigation = [
   { path: "/", label: "Home", icon: "home" },
-  { path: "/discover", label: "Discover", icon: "compass" },
-  { path: "/connections", label: "Connections", icon: "heart" },
-  { path: "/consultation", label: "Consultation", icon: "chat" },
+  { path: "/consultation", label: "Lifestyle guidance", icon: "chat" },
 ];
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -30,11 +23,6 @@ export function Shell({ children }: { children: ReactNode }) {
 function PersonalShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [panel, setPanel] = useState<string | null>(null);
-  const [connections] = useDemoStore(
-    "soul-sync-connections-v1",
-    [],
-    validConnections,
-  );
   const [bookings] = useDemoStore("soul-sync-bookings-v1", [], validBookings);
   return (
     <div className="app-shell">
@@ -45,7 +33,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
           </span>
           SOUL SYNC
         </Link>
-        <div className="sidebar-caption">YOUR SPACE FOR SOMETHING REAL</div>
+        <div className="sidebar-caption">YOUR DESIRES. YOUR BOUNDARIES.</div>
         <nav aria-label="Main navigation">
           {navigation.map((item) => (
             <Link
@@ -56,9 +44,6 @@ function PersonalShell({ children }: { children: ReactNode }) {
             >
               <Icon name={item.icon} />
               <span>{item.label}</span>
-              {item.path === "/connections" && connections.length > 0 && (
-                <span className="nav-count">{connections.length}</span>
-              )}
             </Link>
           ))}
         </nav>
@@ -68,8 +53,9 @@ function PersonalShell({ children }: { children: ReactNode }) {
               <Icon name="chat" size={26} />
             </span>
             <h3>
-              A little clarity.
-              <br />A lot of heart.
+              Your curiosity.
+              <br />
+              Your pace.
             </h3>
             <p>Find a conversation that feels right for you.</p>
             <Link href="/consultation">
@@ -82,22 +68,6 @@ function PersonalShell({ children }: { children: ReactNode }) {
           >
             <Icon name="help" />
             Help & support
-          </button>
-          <button
-            className="sidebar-profile"
-            onClick={() => setPanel("Your profile")}
-          >
-            <Image
-              src="/images/maya.jpg"
-              width={38}
-              height={38}
-              alt="Your demo profile"
-            />
-            <span>
-              <strong>Jamie Parker</strong>
-              <small>My personal space</small>
-            </span>
-            <Icon name="chevron" size={16} />
           </button>
         </div>
       </aside>
@@ -127,7 +97,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
             </button>
             <span className="live-note">
               <i />
-              Your personal space
+              No profile needed
             </span>
             <button
               className="icon-button notification-button"
@@ -137,20 +107,13 @@ function PersonalShell({ children }: { children: ReactNode }) {
               <Icon name="bell" />
               {bookings.length > 0 && <i />}
             </button>
-            <button
-              className="top-avatar"
-              aria-label="Open profile"
-              onClick={() => setPanel("Your profile")}
-            >
-              <Image src="/images/maya.jpg" width={34} height={34} alt="" />
-            </button>
           </div>
         </header>
         <main key={pathname} className="page-content">
           {children}
         </main>
         <footer>
-          <span>Made for real connections. Made for you.</span>
+          <span>Private conversations. Personal guidance.</span>
           <span>
             soul sync <Icon name="heart" size={12} /> 2026
           </span>
@@ -158,27 +121,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
       </div>
       {panel && (
         <Modal title={panel} onClose={() => setPanel(null)}>
-          {panel === "Your profile" ? (
-            <div className="profile-panel">
-              <Image
-                src="/images/maya.jpg"
-                width={84}
-                height={84}
-                alt="Jamie Parker"
-              />
-              <h3>Jamie Parker</h3>
-              <p>Open to love. Here for something real.</p>
-              <div className="pill-row">
-                <span>Slow Sundays</span>
-                <span>Coffee dates</span>
-                <span>Travel</span>
-              </div>
-              <p className="muted">
-                This is your demo personal space. You have {connections.length}{" "}
-                saved connections.
-              </p>
-            </div>
-          ) : panel === "Your updates" ? (
+          {panel === "Your updates" ? (
             <>
               <p className="muted">Your latest Soul Sync activity</p>
               {bookings.length ? (
@@ -212,8 +155,9 @@ function PersonalShell({ children }: { children: ReactNode }) {
               <div className="update-item">
                 <Icon name="heart" />
                 <p>
-                  Select a profile and choose Connect to save someone to
-                  Connections. You can connect with more than one person.
+                  No public profile or photos are needed. Use the chat to share
+                  your guidance topic and an email for our team to reply to. A
+                  phone number is optional.
                 </p>
               </div>
               <div className="update-item">

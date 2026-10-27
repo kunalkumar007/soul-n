@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     return Response.json(
       {
         error:
-          "Please complete your name, details, and requirements before sending.",
+          "Please add your name or nickname, a valid email, and a guidance topic. A phone number is optional but must be valid if provided.",
       },
       { status: 400 },
     );

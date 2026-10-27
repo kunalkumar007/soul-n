@@ -14,9 +14,11 @@ function parseSavedValue<T>(
   raw: string | null,
   fallback: T,
   validate: (value: unknown) => value is T,
+  normalize?: (value: unknown) => unknown,
 ): T {
   try {
-    const parsed: unknown = raw ? JSON.parse(raw) : null;
+    const stored: unknown = raw ? JSON.parse(raw) : null;
+    const parsed = normalize ? normalize(stored) : stored;
     return validate(parsed) ? parsed : fallback;
   } catch {
     return fallback;
@@ -26,6 +28,7 @@ export function useDemoStore<T>(
   key: string,
   fallback: T,
   validate: (value: unknown) => value is T,
+  normalize?: (value: unknown) => unknown,
 ) {
   const raw = useSyncExternalStore(
     subscribe,
@@ -38,13 +41,14 @@ export function useDemoStore<T>(
     },
     () => null,
   );
-  const value = parseSavedValue(raw, fallback, validate);
+  const value = parseSavedValue(raw, fallback, validate, normalize);
   const save = (update: T | ((current: T) => T)) => {
     try {
       const current = parseSavedValue(
         localStorage.getItem(key),
         fallback,
         validate,
+        normalize,
       );
       const next =
         typeof update === "function"
@@ -59,8 +63,6 @@ export function useDemoStore<T>(
   };
   return [value, save] as const;
 }
-export const validConnections = (value: unknown): value is string[] =>
-  Array.isArray(value) && value.every((item) => typeof item === "string");
 export type Booking = {
   topic: string;
   date: string;

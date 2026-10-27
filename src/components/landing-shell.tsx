@@ -45,17 +45,14 @@ export function LandingShell({ children }: { children: ReactNode }) {
           <Link href="/" aria-current="page">
             Home
           </Link>
-          <a href="#how-it-works">How it works</a>
-          <a href="#community">The community</a>
+          <a href="#how-it-works">Who it’s for</a>
+          <a href="#privacy">Your privacy</a>
           <Link href="/consultation">
-            Let’s talk love <span>↗</span>
-          </Link>
-          <Link href="/discover" className="landing-mobile-discover">
-            Discover people <span>↗</span>
+            Lifestyle guidance <span>↗</span>
           </Link>
         </nav>
-        <Link href="/discover" className="primary-button">
-          Explore connections <Icon name="arrow" size={17} />
+        <Link href="/consultation" className="primary-button">
+          Let’s explore <Icon name="arrow" size={17} />
         </Link>
       </header>
       <main className="landing-page">{children}</main>
@@ -66,11 +63,11 @@ export function LandingShell({ children }: { children: ReactNode }) {
           </span>
           SOUL SYNC
         </Link>
-        <p>Real people. Deeper connections.</p>
+        <p>Private conversations. Personal guidance.</p>
         <nav aria-label="Footer navigation">
-          <a href="#how-it-works">How it works</a>
-          <Link href="/discover">Discover people</Link>
-          <Link href="/consultation">Consultation</Link>
+          <a href="#how-it-works">Who it’s for</a>
+          <a href="#privacy">Your privacy</a>
+          <Link href="/consultation">Lifestyle guidance</Link>
         </nav>
         <span>© 2026 Soul Sync</span>
       </footer>
