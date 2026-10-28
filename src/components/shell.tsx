@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import { Icon } from "./icon";
+import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
 import { LandingShell } from "./landing-shell";
 import { useDemoStore, validBookings } from "@/lib/demo-store";
@@ -28,10 +29,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
     <div className="app-shell">
       <aside className="sidebar">
         <Link href="/" className="brand" aria-label="Soul Sync home">
-          <span className="brand-icon">
-            <Icon name="heart" size={25} />
-          </span>
-          SOUL SYNC
+          <BrandLogo />
         </Link>
         <div className="sidebar-caption">YOUR DESIRES. YOUR BOUNDARIES.</div>
         <nav aria-label="Main navigation">
@@ -78,7 +76,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
             className="space-mobile-brand"
             aria-label="Soul Sync home"
           >
-            <Icon name="heart" size={23} /> SOUL SYNC
+            <BrandLogo />
           </Link>
           <div className="breadcrumb">
             Your space <span>/</span>{" "}

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef, useState, type ReactNode } from "react";
 import { Icon } from "./icon";
+import { BrandLogo } from "./brand-logo";
 
 export function LandingShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,10 +22,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
         }}
       >
         <Link href="/" className="brand" aria-label="Soul Sync home">
-          <span className="brand-icon">
-            <Icon name="heart" size={28} />
-          </span>
-          SOUL SYNC
+          <BrandLogo />
         </Link>
         <button
           ref={menuButton}
@@ -58,10 +56,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
       <main className="landing-page">{children}</main>
       <footer className="landing-footer">
         <Link href="/" className="brand" aria-label="Soul Sync home">
-          <span className="brand-icon">
-            <Icon name="heart" size={25} />
-          </span>
-          SOUL SYNC
+          <BrandLogo />
         </Link>
         <p>Private conversations. Personal guidance.</p>
         <nav aria-label="Footer navigation">

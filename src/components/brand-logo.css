@@ -1,0 +1,56 @@
+.brand-logo {
+  position: relative;
+  display: block;
+  flex-shrink: 0;
+  width: 160px;
+  aspect-ratio: 494 / 366;
+  overflow: hidden;
+  mix-blend-mode: lighten;
+}
+
+/* Frame the supplied portrait JPEG around its artwork without editing it. */
+.brand-logo img {
+  position: absolute;
+  width: 153.644%;
+  max-width: none;
+  height: auto;
+  left: -26.721%;
+  top: -125.683%;
+}
+
+.brand-logo-mark {
+  width: 32px;
+  aspect-ratio: 1;
+}
+
+.brand-logo-mark img {
+  width: 281.111%;
+  left: -90.37%;
+  top: -171.111%;
+}
+
+.landing-footer .brand-logo {
+  width: 145px;
+}
+
+@media (min-width: 701px) {
+  .app-shell .sidebar {
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 850px) {
+  .landing-header .brand-logo {
+    width: 128px;
+  }
+}
+
+@media (max-width: 700px) {
+  .space-mobile-brand .brand-logo {
+    width: 94px;
+  }
+  .landing-footer .brand-logo {
+    width: 120px;
+  }
+}

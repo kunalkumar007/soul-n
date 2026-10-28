@@ -19,6 +19,7 @@ import {
   type IntakeField,
 } from "@/lib/chat-intake";
 import { Icon } from "./icon";
+import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
 import "./chatbot.css";
 
@@ -213,7 +214,7 @@ export function Chatbot() {
           >
             <div className="chat-welcome">
               <span className="chat-avatar">
-                <Icon name="heart" size={23} />
+                <BrandLogo markOnly />
               </span>
               <h3>
                 A little hello.
