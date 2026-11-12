@@ -4,38 +4,8 @@ import Image from "next/image";
 import { Icon } from "./icon";
 import { Modal } from "./modal";
 import { useDemoStore, validBookings, type Booking } from "@/lib/demo-store";
-const topics = [
-  {
-    title: "Explore your kinks",
-    category: "KINKS & SELF-DISCOVERY",
-    description:
-      "Talk through your curiosity, fantasies, and boundaries in a conversation without judgment.",
-    icon: "spark",
-    color: "pink",
-    length: "45 min",
-    price: "49",
-  },
-  {
-    title: "Spice up life together",
-    category: "GUIDANCE FOR COUPLES",
-    description:
-      "Discuss shared desires, communicate openly, and explore what feels right for both of you.",
-    icon: "heart",
-    color: "lavender",
-    length: "60 min",
-    price: "69",
-  },
-  {
-    title: "Find your lifestyle path",
-    category: "LIFESTYLE GUIDANCE & SUPPORT",
-    description:
-      "Explore your choices thoughtfully, with support for your privacy, personal life, and social boundaries.",
-    icon: "compass",
-    color: "yellow",
-    length: "45 min",
-    price: "49",
-  },
-];
+import { services as topics, membership } from "@/lib/services";
+import { MembershipSection } from "./lifestyle-offerings";
 export function Consultation() {
   const [selected, setSelected] = useState<(typeof topics)[number] | null>(
     null,
@@ -160,6 +130,7 @@ export function Consultation() {
           {topics.map((topic) => (
             <article
               className={`session-card ${topic.color}`}
+              id={topic.id}
               key={topic.title}
             >
               <div className="session-symbol">
@@ -176,10 +147,9 @@ export function Consultation() {
                   <Icon name="clock" size={15} />
                   {topic.length} video session
                 </span>
-                <strong>
-                  ${topic.price}
-                  <small> / session</small>
-                </strong>
+                <span className="session-pricing-note">
+                  {membership.additionalPricing}
+                </span>
               </div>
               <button
                 className="session-button"
@@ -200,6 +170,7 @@ export function Consultation() {
           ))}
         </div>
       </section>
+      <MembershipSection />
       <section className="how-section">
         <div>
           <span className="eyebrow">
@@ -282,9 +253,8 @@ export function Consultation() {
           <div className="booking-summary">
             <span className="eyebrow">YOUR CONVERSATION</span>
             <h3>{selected.title}</h3>
-            <p>
-              {selected.length} · Private video session · ${selected.price}
-            </p>
+            <p>{selected.length} · Private video session</p>
+            <p>{membership.additionalPricing}</p>
           </div>
           <form className="booking-form" onSubmit={book}>
             <label>

@@ -1,0 +1,206 @@
+.services-overview {
+  padding: 20px 0 0;
+}
+.offering-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 45px;
+}
+.offering-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 32px;
+  border: 1px solid #75415c;
+  border-radius: 16px;
+  background: #331a2a;
+}
+.offering-card.lavender {
+  border-color: #6b507e;
+  background: #2c203b;
+}
+.offering-card.yellow {
+  border-color: #846048;
+  background: #33231f;
+}
+.offering-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 26px;
+  border: 1px solid #b3698e;
+  border-radius: 50%;
+  color: #ff8abb;
+}
+.offering-card > .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.3px;
+}
+.offering-card h3,
+.membership-event h3 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.6px;
+  margin: 18px 0;
+}
+.offering-card > p,
+.membership-event > p,
+.membership-description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.offering-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-top: 26px;
+  padding: 8px 0;
+  color: #ffb5d7;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: left;
+}
+.offering-card .offering-link {
+  margin-top: auto;
+  padding-top: 28px;
+}
+.offering-link:hover {
+  color: #fff5f6;
+}
+.offering-link:focus-visible {
+  outline: 2px solid #ff8abb;
+  outline-offset: 4px;
+}
+.offering-link svg {
+  flex-shrink: 0;
+}
+.membership-section {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 55px;
+  margin-block: 65px;
+  padding: 48px;
+  border: 1px solid #75415c;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 0 100%, #652a44, transparent 70%), #2a1625;
+  scroll-margin-top: 30px;
+}
+.membership-copy,
+.membership-event {
+  min-width: 0;
+}
+.membership-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -1px;
+  margin-top: 22px;
+}
+.membership-copy .membership-price {
+  margin: 20px 0;
+  color: #ffb5d7;
+  font-family: var(--font-display);
+  font-size: clamp(54px, 6vw, 88px);
+  line-height: 1;
+  letter-spacing: -2.5px;
+}
+.membership-pricing-note {
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #f5d6e5;
+}
+.membership-copy > .primary-button {
+  margin-top: 28px;
+  max-width: 100%;
+}
+.membership-event {
+  align-self: center;
+  padding: 15px 0 15px 45px;
+  border-left: 1px solid #ffffff26;
+  scroll-margin-top: 30px;
+}
+.membership-event .eyebrow {
+  font-size: 8px;
+  letter-spacing: 1.5px;
+}
+.membership-event h3 {
+  font-size: 36px;
+}
+.app-shell .session-details .session-pricing-note {
+  color: #ffb5d7;
+  font-size: 12px;
+  line-height: 1.7;
+}
+@media (max-width: 1100px) {
+  .offering-card {
+    padding: 25px;
+  }
+  .offering-card h3 {
+    font-size: 28px;
+  }
+  .membership-section {
+    padding: 36px;
+    gap: 30px;
+  }
+  .membership-event {
+    padding-left: 28px;
+  }
+}
+@media (max-width: 700px) {
+  .services-overview {
+    padding-top: 5px;
+  }
+  .offering-grid {
+    grid-template-columns: 1fr;
+    margin-top: 30px;
+    gap: 20px;
+  }
+  .offering-card {
+    padding: 28px;
+  }
+  .offering-card .offering-link {
+    margin-top: 8px;
+    padding-top: 18px;
+  }
+  .membership-section {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-block: 45px;
+    padding: 30px 25px;
+    border-radius: 15px;
+  }
+  .membership-copy h2 {
+    font-size: 36px;
+  }
+  .membership-copy .membership-price {
+    font-size: 60px;
+  }
+  .membership-event {
+    padding: 30px 0 0;
+    border-left: 0;
+    border-top: 1px solid #ffffff26;
+  }
+  .membership-event h3 {
+    font-size: 32px;
+  }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .app-shell .membership-section {
+    grid-template-columns: 1fr;
+  }
+  .app-shell .membership-event {
+    padding: 30px 0 0;
+    border-left: 0;
+    border-top: 1px solid #ffffff26;
+  }
+}

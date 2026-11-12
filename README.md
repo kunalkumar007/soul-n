@@ -60,6 +60,19 @@ The public endpoint does not maintain a distributed rate limiter.
 The site provides kink and lifestyle guidance, without public profiles or matching.
 Legacy `/discover` and `/connections` URLs redirect to the homepage.
 
+## Services, membership, and events
+
+`src/lib/services.ts` is the shared source for Erotic Ginni, Couple Touch,
+Spice in Their Bed, the ₹25,000 lifetime membership, and event participation.
+Additional services are quoted according to the visitor’s requirements.
+
+Service, membership, and event enquiry buttons open the existing chatbot with
+the selected topic. If a visitor already has a different draft, switching topics
+requires confirmation and retains their contact details. The email API handles
+these enquiries through the same validation and delivery flow. Membership and
+event buttons request information; they do not collect payments, activate a
+membership, or reserve an event place.
+
 ## Hostinger automatic deployments
 
 Use Hostinger's managed **Deploy Web App** option on a Business or Cloud plan.

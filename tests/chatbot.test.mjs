@@ -1,18 +1,6 @@
 import assert from "node:assert/strict";
 import { registerHooks } from "node:module";
 import { afterEach, beforeEach, mock, test } from "node:test";
-import {
-  answerIntake,
-  editIntake,
-  emptyIntake,
-  getIntakeStep,
-  intakeQuestions,
-  intakeFields,
-  migrateIntake,
-  validIntake,
-  validSubmission,
-  validateAnswer,
-} from "../src/lib/chat-intake.ts";
 import { sendIntakeEmail } from "../src/lib/intake-email.ts";
 
 // Resolve the app's TypeScript alias when running its route under Node's test runner.
@@ -27,6 +15,19 @@ registerHooks({
     return nextResolve(specifier, context);
   },
 });
+const {
+  answerIntake,
+  editIntake,
+  emptyIntake,
+  getIntakeStep,
+  intakeQuestions,
+  intakeFields,
+  migrateIntake,
+  selectIntakeTopic,
+  validIntake,
+  validSubmission,
+  validateAnswer,
+} = await import("../src/lib/chat-intake.ts");
 const { POST } = await import("../src/app/api/chat-intake/route.ts");
 
 const submission = {
@@ -95,6 +96,62 @@ test("the chat asks nickname, email, optional phone, and guidance topic in order
   }
   assert.equal(getIntakeStep(intake), null);
   assert.equal(intake.confirmed, false);
+});
+
+test("an offering can preselect a topic while retaining required contact steps", () => {
+  let intake = selectIntakeTopic(emptyIntake, "Lifetime membership");
+  assert.equal(validIntake(intake), true);
+  assert.equal(intake.requirement, "Lifetime membership");
+  assert.equal(getIntakeStep(intake), "name");
+  intake = answerIntake(intake, "name", submission.name);
+  assert.equal(getIntakeStep(intake), "email");
+  intake = answerIntake(intake, "email", submission.email);
+  assert.equal(getIntakeStep(intake), "phone");
+  intake = answerIntake(intake, "phone", "");
+  assert.equal(getIntakeStep(intake), null);
+  assert.equal(intake.phoneSkipped, true);
+  assert.equal(validIntake(JSON.parse(JSON.stringify(intake))), true);
+  assert.equal(
+    validSubmission({ ...intake, submissionId: submission.submissionId }),
+    true,
+  );
+});
+
+test("topic changes preserve contact details and invalidate only changed submissions", () => {
+  const sent = { ...emptyIntake, ...submission, confirmed: true };
+  const selected = selectIntakeTopic(sent, "  Event participation  ");
+  assert.equal(selected.name, sent.name);
+  assert.equal(selected.email, sent.email);
+  assert.equal(selected.phone, sent.phone);
+  assert.equal(selected.requirement, "Event participation");
+  assert.equal(selected.confirmed, false);
+  assert.equal(selected.submissionId, "");
+  assert.equal(validIntake(selected), true);
+  assert.equal(selectIntakeTopic(sent, ` ${sent.requirement} `), sent);
+  assert.equal(selectIntakeTopic(selected, "Event participation"), selected);
+  assert.equal(selectIntakeTopic(selected, " "), selected);
+  assert.equal(selectIntakeTopic(selected, "x".repeat(1501)), selected);
+});
+
+test("membership and event enquiries reach the configured email recipient", async () => {
+  configureEmail();
+  providerResponse();
+  for (const requirement of [
+    "Lifetime membership",
+    "Event participation",
+    "Couple Touch",
+  ]) {
+    const response = await POST(
+      request({ ...submission, requirement, phone: "" }),
+    );
+    assert.equal(response.status, 200);
+    const email = JSON.parse(
+      globalThis.fetch.mock.calls.at(-1).arguments[1].body,
+    );
+    assert.ok(email.text.includes(requirement));
+    assert.equal(email.reply_to, submission.email);
+    assert.deepEqual(email.to, [config.to]);
+  }
 });
 
 test("empty answers, skipped steps, and rapid repeated answers cannot advance the chat", () => {

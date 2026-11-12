@@ -43,7 +43,8 @@ export function LandingShell({ children }: { children: ReactNode }) {
           <Link href="/" aria-current="page">
             Home
           </Link>
-          <a href="#how-it-works">Who it’s for</a>
+          <a href="#services">Our services</a>
+          <a href="#membership">Membership</a>
           <a href="#privacy">Your privacy</a>
           <Link href="/consultation">
             Lifestyle guidance <span>↗</span>
@@ -60,7 +61,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
         </Link>
         <p>Private conversations. Personal guidance.</p>
         <nav aria-label="Footer navigation">
-          <a href="#how-it-works">Who it’s for</a>
+          <a href="#membership">Membership</a>
           <a href="#privacy">Your privacy</a>
           <Link href="/consultation">Lifestyle guidance</Link>
         </nav>

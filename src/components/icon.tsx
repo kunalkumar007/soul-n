@@ -1,6 +1,18 @@
 import type { CSSProperties } from "react";
 
 const paths: Record<string, React.ReactNode> = {
+  bed: (
+    <>
+      <path d="M3 18V7m0 8h18v6M3 21v-3h18M7 15v-5h10a4 4 0 0 1 4 4v1" />
+      <path d="M3 10h4" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M7 3v4m10-4v4M3 11h18m-14 4h3m4 0h3" />
+    </>
+  ),
   lock: (
     <>
       <rect x="5" y="10" width="14" height="11" rx="2" />

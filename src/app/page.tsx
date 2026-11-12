@@ -1,6 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Icon } from "@/components/icon";
+import {
+  ServiceHighlights,
+  MembershipSection,
+} from "@/components/lifestyle-offerings";
 
 export default function Home() {
   return (
@@ -148,6 +152,10 @@ export default function Home() {
           </article>
         </div>
       </section>
+      <ServiceHighlights />
+      <div className="landing-section">
+        <MembershipSection />
+      </div>
       <section className="landing-community landing-section" id="privacy">
         <div className="section-heading">
           <div>

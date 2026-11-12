@@ -14,17 +14,23 @@ import {
   isIntakeAnswered,
   migrateIntake,
   requirementSuggestions,
+  selectIntakeTopic,
   validIntake,
   validateAnswer,
   type IntakeField,
 } from "@/lib/chat-intake";
+import { openChatEvent } from "@/lib/chat-events";
 import { Icon } from "./icon";
 import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
 import "./chatbot.css";
 
+const storageError =
+  "Your browser couldn’t save this. Allow site storage, then try again.";
+
 export function Chatbot() {
   const [open, setOpen] = useState(false);
+  const [requestedTopic, setRequestedTopic] = useState<string | null>(null);
   const [intake, save] = useDemoStore(
     intakeStorageKey,
     emptyIntake,
@@ -40,7 +46,7 @@ export function Chatbot() {
   const transcript = useRef<HTMLDivElement>(null);
   const step = getIntakeStep(intake);
   const editingField = step ? null : editing;
-  const activeField = editingField ?? step;
+  const activeField = requestedTopic ? null : (editingField ?? step);
   const sent =
     intake.confirmed ||
     Boolean(intake.submissionId && sentId === intake.submissionId);
@@ -53,6 +59,30 @@ export function Chatbot() {
   );
 
   useEffect(() => {
+    function openEnquiry(event: Event) {
+      setOpen(true);
+      if (request.current) return;
+      const topic: unknown = (event as CustomEvent).detail;
+      if (typeof topic !== "string" || validateAnswer("requirement", topic))
+        return;
+      const value = topic.trim();
+      let needsConfirmation = false;
+      const saved = save((current) => {
+        needsConfirmation = Boolean(
+          current.requirement && current.requirement !== value,
+        );
+        return needsConfirmation ? current : selectIntakeTopic(current, value);
+      });
+      setRequestedTopic(needsConfirmation || !saved ? value : null);
+      setEditing(null);
+      setResetRequested(false);
+      setError(saved ? "" : storageError);
+    }
+    window.addEventListener(openChatEvent, openEnquiry);
+    return () => window.removeEventListener(openChatEvent, openEnquiry);
+  }, [save]);
+
+  useEffect(() => {
     const container = transcript.current;
     if (!container) return;
     const scrollToLatest = () => {
@@ -62,15 +92,11 @@ export function Chatbot() {
     const observer = new ResizeObserver(scrollToLatest);
     observer.observe(container);
     return () => observer.disconnect();
-  }, [open, activeField, sent, error]);
+  }, [open, activeField, sent, error, requestedTopic]);
 
   function persist(update: Parameters<typeof save>[0]) {
     const saved = save(update);
-    setError(
-      saved
-        ? ""
-        : "Your browser couldn’t save this. Allow site storage, then try again.",
-    );
+    setError(saved ? "" : storageError);
     return saved;
   }
 
@@ -92,7 +118,8 @@ export function Chatbot() {
   }
 
   async function sendDetails() {
-    if (request.current || sent || step || editingField) return;
+    if (request.current || sent || step || editingField || requestedTopic)
+      return;
     let submission = emptyIntake;
     if (
       !persist((current) => {
@@ -167,6 +194,7 @@ export function Chatbot() {
     setOpen(false);
     setEditing(null);
     setResetRequested(false);
+    setRequestedTopic(null);
     setError("");
   }
 
@@ -227,25 +255,64 @@ export function Chatbot() {
                 optional. No profile or pictures needed.
               </p>
             </div>
-            {intakeFields.map((field) => {
-              const index = intakeFields.indexOf(field);
-              if (step && index > intakeFields.indexOf(step)) return null;
-              return (
-                <div className="chat-exchange" key={field}>
-                  <div className="chat-message chat-message-guide">
-                    <span className="chat-speaker">Soul Sync</span>
-                    <p>{intakeQuestions[field].prompt}</p>
-                  </div>
-                  {isIntakeAnswered(intake, field) && (
-                    <div className="chat-message chat-message-user">
-                      <span className="chat-speaker">You</span>
-                      <p>{intake[field] || "Skipped — email is enough."}</p>
+            {requestedTopic ? (
+              <div className="chat-enquiry-topic">
+                <span className="chat-speaker">YOUR NEW ENQUIRY</span>
+                <h3>{requestedTopic}</h3>
+                <p>
+                  {intake.requirement
+                    ? "You have a saved enquiry. Switch to this topic, or keep your current draft. Your contact details will be kept."
+                    : "Continue with this topic for your private enquiry."}
+                </p>
+                <button
+                  type="button"
+                  className="chat-primary"
+                  disabled={sending}
+                  onClick={() => {
+                    if (
+                      persist((current) =>
+                        selectIntakeTopic(current, requestedTopic),
+                      )
+                    )
+                      setRequestedTopic(null);
+                  }}
+                >
+                  Use this topic
+                </button>
+                <button
+                  type="button"
+                  className="chat-secondary"
+                  onClick={() => setRequestedTopic(null)}
+                >
+                  Keep current draft
+                </button>
+              </div>
+            ) : intake.requirement && step ? (
+              <div className="chat-enquiry-topic">
+                <span className="chat-speaker">YOUR ENQUIRY</span>
+                <p>{intake.requirement}</p>
+              </div>
+            ) : null}
+            {!requestedTopic &&
+              intakeFields.map((field) => {
+                const index = intakeFields.indexOf(field);
+                if (step && index > intakeFields.indexOf(step)) return null;
+                return (
+                  <div className="chat-exchange" key={field}>
+                    <div className="chat-message chat-message-guide">
+                      <span className="chat-speaker">Soul Sync</span>
+                      <p>{intakeQuestions[field].prompt}</p>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-            {!step && !editingField && (
+                    {isIntakeAnswered(intake, field) && (
+                      <div className="chat-message chat-message-user">
+                        <span className="chat-speaker">You</span>
+                        <p>{intake[field] || "Skipped — email is enough."}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            {!requestedTopic && !step && !editingField && (
               <div className="chat-review">
                 <span className="chat-speaker">
                   {sent ? "DETAILS SENT" : "A QUICK CHECK"}
@@ -341,6 +408,7 @@ export function Chatbot() {
                     if (persist(emptyIntake)) {
                       setEditing(null);
                       setResetRequested(false);
+                      setRequestedTopic(null);
                     }
                   }}
                 >

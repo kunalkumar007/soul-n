@@ -410,3 +410,26 @@
     flex-basis: 100%;
   }
 }
+
+.chat-enquiry-topic {
+  margin: 18px 0 24px;
+  padding: 15px;
+  border: 1px solid var(--chat-border);
+  border-radius: 12px;
+  background: var(--chat-deep);
+  overflow-wrap: anywhere;
+}
+.chat-enquiry-topic p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.chat-enquiry-topic .chat-primary {
+  margin-top: 16px;
+}
+.chat-enquiry-topic h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  font-weight: 400;
+}

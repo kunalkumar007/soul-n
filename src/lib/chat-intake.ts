@@ -1,3 +1,5 @@
+import { services, membership, eventParticipation } from "@/lib/services";
+
 export const intakeStorageKey = "soul-sync-intake-v1";
 
 export const intakeFields = ["name", "email", "phone", "requirement"] as const;
@@ -55,6 +57,9 @@ export const intakeQuestions = {
 };
 
 export const requirementSuggestions = [
+  ...services.map((service) => service.title),
+  membership.title,
+  eventParticipation.enquiry,
   "Exploring kinks",
   "Guidance for couples",
   "Lifestyle guidance",
@@ -197,6 +202,14 @@ export function answerIntake(
   if (validateAnswer(field, answer)) return intake;
   // A repeated submission for an answered step must not advance the next step.
   if (getIntakeStep(intake) !== field) return intake;
+  return updateIntakeAnswer(intake, field, answer);
+}
+
+function updateIntakeAnswer(
+  intake: Intake,
+  field: IntakeField,
+  answer: string,
+) {
   return {
     ...intake,
     [field]: answer.trim(),
@@ -214,13 +227,16 @@ export function editIntake(intake: Intake, field: IntakeField, answer: string) {
   ) {
     return intake;
   }
-  return {
-    ...intake,
-    [field]: answer.trim(),
-    phoneSkipped: field === "phone" ? !answer.trim() : intake.phoneSkipped,
-    confirmed: false,
-    submissionId: "",
-  };
+  return updateIntakeAnswer(intake, field, answer);
+}
+
+export function selectIntakeTopic(intake: Intake, topic: string) {
+  if (
+    validateAnswer("requirement", topic) ||
+    intake.requirement === topic.trim()
+  )
+    return intake;
+  return updateIntakeAnswer(intake, "requirement", topic);
 }
 
 export type IntakeSubmission = Pick<
