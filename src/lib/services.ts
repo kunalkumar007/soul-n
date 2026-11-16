@@ -1,15 +1,5 @@
 export const services = [
   {
-    id: "erotic-ginni",
-    title: "Erotic Ginni",
-    category: "FANTASY & LIFESTYLE GUIDANCE",
-    description:
-      "A private space to talk about your desires and fantasies, and find guidance shaped around your curiosity.",
-    icon: "spark",
-    color: "pink",
-    length: "45 min",
-  },
-  {
     id: "couple-touch",
     title: "Couple Touch",
     category: "A LITTLE CLOSER, TOGETHER",

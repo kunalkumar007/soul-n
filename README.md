@@ -27,8 +27,8 @@ The starter uses system fonts so production builds do not need to download fonts
 
 ## Chatbot enquiries
 
-The floating Soul Sync guide collects a nickname, required email, optional phone
-number, and guidance topic, then lets visitors review and edit their answers before
+Erotic Ginni, Soul Sync’s floating chatbot, collects a nickname, required email,
+optional phone number, and guidance topic, then lets visitors review and edit their answers before
 sending them to the team by email. The phone step has an explicit skip option;
 an omitted or blank phone number is also accepted by the API. New enquiries do
 not ask for a personal biography or pictures. Draft answers stay in this browser
@@ -62,7 +62,7 @@ Legacy `/discover` and `/connections` URLs redirect to the homepage.
 
 ## Services, membership, and events
 
-`src/lib/services.ts` is the shared source for Erotic Ginni, Couple Touch,
+`src/lib/services.ts` is the shared source for Couple Touch,
 Spice in Their Bed, the ₹25,000 lifetime membership, and event participation.
 Additional services are quoted according to the visitor’s requirements.
 

@@ -25,6 +25,7 @@ import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
 import "./chatbot.css";
 
+const chatbotName = "Erotic Ginni";
 const storageError =
   "Your browser couldn’t save this. Allow site storage, then try again.";
 
@@ -202,20 +203,16 @@ export function Chatbot() {
     <div className="soul-chat">
       <button
         className="chat-launcher"
-        aria-label="Chat with Soul Sync"
+        aria-label={`Chat with ${chatbotName}`}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen(true)}
       >
         <Icon name="chat" size={23} />
-        <span>Let’s chat</span>
+        <span>{chatbotName}</span>
       </button>
       {open && (
-        <Modal
-          title="Your Soul Sync guide"
-          className="chat-dialog"
-          onClose={close}
-        >
+        <Modal title={chatbotName} className="chat-dialog" onClose={close}>
           <div
             className="chat-progress"
             aria-label={`${intakeFields.filter((field) => isIntakeAnswered(intake, field)).length} of ${intakeFields.length} steps completed`}
@@ -235,7 +232,7 @@ export function Chatbot() {
             className="chat-transcript"
             ref={transcript}
             role="log"
-            aria-label="Conversation with Soul Sync"
+            aria-label={`Conversation with ${chatbotName}`}
             aria-live="polite"
             aria-relevant="additions text"
             tabIndex={0}
@@ -250,9 +247,9 @@ export function Chatbot() {
                 <em>A place to start.</em>
               </h3>
               <p>
-                I’m the Soul Sync guide. Share a nickname, an email for our
-                reply, and what you’d like to explore. A phone number is
-                optional. No profile or pictures needed.
+                I’m {chatbotName}, your Soul Sync guide. Share a nickname, an
+                email for our reply, and what you’d like to explore. A phone
+                number is optional. No profile or pictures needed.
               </p>
             </div>
             {requestedTopic ? (
@@ -300,7 +297,7 @@ export function Chatbot() {
                 return (
                   <div className="chat-exchange" key={field}>
                     <div className="chat-message chat-message-guide">
-                      <span className="chat-speaker">Soul Sync</span>
+                      <span className="chat-speaker">{chatbotName}</span>
                       <p>{intakeQuestions[field].prompt}</p>
                     </div>
                     {isIntakeAnswered(intake, field) && (
