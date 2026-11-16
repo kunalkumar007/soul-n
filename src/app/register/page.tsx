@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChatButton } from "@/components/chat-button";
 import { Icon } from "@/components/icon";
+import { brandName } from "@/lib/brand";
 import {
   getPartnerRegistrationTopic,
   partnerRegistration,
@@ -8,9 +9,9 @@ import {
 import "./registration.css";
 
 export const metadata: Metadata = {
-  title: "Register as a kink partner — Soul Sync",
+  title: `Register as a kink partner — ${brandName}`,
   description:
-    "Register your interest as a male or female kink partner. Share a private registration request with the Soul Sync team.",
+    `Register your interest as a male or female kink partner. Share a private registration request with the ${brandName} team.`,
 };
 
 export default function RegisterPage() {
@@ -28,7 +29,7 @@ export default function RegisterPage() {
         </h1>
         <p>
           Start with a private hello. Choose Male or Female to send a
-          registration request to the Soul Sync team, at your own pace.
+          registration request to the {brandName} team, at your own pace.
         </p>
         <p>{partnerRegistration.purpose}</p>
         <div className="registration-refund">

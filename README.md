@@ -1,4 +1,4 @@
-# Soul N
+# Soul Kink
 
 Next.js App Router starter with TypeScript, Tailwind CSS, and ESLint.
 
@@ -27,7 +27,7 @@ The starter uses system fonts so production builds do not need to download fonts
 
 ## Chatbot enquiries
 
-Erotic Ginni, Soul Sync’s floating chatbot, collects a nickname, required email,
+Erotic Ginni, Soul Kink’s floating chatbot, collects a nickname, required email,
 optional phone number, and guidance topic, then lets visitors review and edit their answers before
 sending them to the team by email. The phone step has an explicit skip option;
 an omitted or blank phone number is also accepted by the API. New enquiries do

@@ -1,5 +1,6 @@
 import { validSubmission } from "@/lib/chat-intake";
 import { sendIntakeEmail } from "@/lib/intake-email";
+import { brandName } from "@/lib/brand";
 
 export async function POST(request: Request) {
   const origin = request.headers.get("origin");
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
   }
   if (foreignOrigin) {
     return Response.json(
-      { error: "Please send your details from the Soul Sync website." },
+      { error: `Please send your details from the ${brandName} website.` },
       { status: 403 },
     );
   }

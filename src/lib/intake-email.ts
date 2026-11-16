@@ -1,4 +1,5 @@
 import type { IntakeSubmission } from "./chat-intake";
+import { brandName } from "@/lib/brand";
 
 export type IntakeEmailConfig = {
   apiKey: string;
@@ -21,9 +22,9 @@ export async function sendIntakeEmail(
       from: config.from,
       to: [config.to],
       reply_to: submission.email.trim(),
-      subject: "New Soul Sync chatbot enquiry",
+      subject: `New ${brandName} chatbot enquiry`,
       text: [
-        "A visitor shared their details through the Soul Sync chatbot.",
+        `A visitor shared their details through the ${brandName} chatbot.`,
         `Name:\n${submission.name.trim()}`,
         `Email:\n${submission.email.trim()}`,
         `Phone:\n${submission.phone?.trim() || "Not provided"}`,

@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import { registerHooks } from "node:module";
 import { afterEach, beforeEach, mock, test } from "node:test";
-import { sendIntakeEmail } from "../src/lib/intake-email.ts";
 
 // Resolve the app's TypeScript alias when running its route under Node's test runner.
 registerHooks({
@@ -29,6 +28,7 @@ const {
   validateAnswer,
 } = await import("../src/lib/chat-intake.ts");
 const { POST } = await import("../src/app/api/chat-intake/route.ts");
+const { sendIntakeEmail } = await import("../src/lib/intake-email.ts");
 const { getPartnerRegistrationTopic, partnerRegistration } = await import(
   "../src/lib/services.ts"
 );
@@ -42,7 +42,7 @@ const submission = {
 };
 const config = {
   apiKey: "test-key-never-sent",
-  from: "Soul Sync <chatbot@example.com>",
+  from: "Soul Kink <chatbot@example.com>",
   to: "leads@example.com",
 };
 const envKeys = ["RESEND_API_KEY", "CHATBOT_FROM_EMAIL", "CHATBOT_TO_EMAIL"];
@@ -398,6 +398,8 @@ test("email contains all answers as plain text and uses only the configured reci
   const email = JSON.parse(options.body);
   assert.deepEqual(email.to, [config.to]);
   assert.equal(email.from, config.from);
+  assert.equal(email.subject, "New Soul Kink chatbot enquiry");
+  assert.ok(email.text.includes("through the Soul Kink chatbot."));
   assert.equal(email.html, undefined);
   assert.match(email.text, /Jamie/);
   assert.match(email.text, /<script>not HTML<\/script>/);

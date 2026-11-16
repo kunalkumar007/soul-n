@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { brandName } from "@/lib/brand";
 import { Icon } from "@/components/icon";
 import {
   ServiceHighlights,
@@ -41,7 +42,9 @@ export default function Home() {
           <path d="M20 330C30 140 200 20 360 65s172 226 295 212 174-130 190-204" />
         </svg>
         <div className="connection-hero-content">
-          <span className="eyebrow">SOUL SYNC. NOT A DATING SITE.</span>
+          <span className="eyebrow">
+            {brandName.toUpperCase()}. NOT A DATING SITE.
+          </span>
           <h1 id="hero-title">
             More than
             <br />

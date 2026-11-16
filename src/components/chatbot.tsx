@@ -20,6 +20,7 @@ import {
   type IntakeField,
 } from "@/lib/chat-intake";
 import { openChatEvent } from "@/lib/chat-events";
+import { brandName } from "@/lib/brand";
 import { Icon } from "./icon";
 import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
@@ -247,7 +248,7 @@ export function Chatbot() {
                 <em>A place to start.</em>
               </h3>
               <p>
-                I’m {chatbotName}, your Soul Sync guide. Share a nickname, an
+                I’m {chatbotName}, your {brandName} guide. Share a nickname, an
                 email for our reply, and what you’d like to explore. A phone
                 number is optional. No profile or pictures needed.
               </p>
@@ -321,8 +322,8 @@ export function Chatbot() {
                 </h3>
                 <p>
                   {sent
-                    ? `Your enquiry is on its way to the Soul Sync team. We can reply to ${intake.email}.`
-                    : "Review your answers, then send them to the Soul Sync team by email."}
+                    ? `Your enquiry is on its way to the ${brandName} team. We can reply to ${intake.email}.`
+                    : `Review your answers, then send them to the ${brandName} team by email.`}
                 </p>
                 <dl>
                   {intakeFields.map((field) => (

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { brandLogo } from "@/lib/brand-logo";
+import { brandName } from "@/lib/brand";
 import "./brand-logo.css";
 
 export function BrandLogo({ markOnly = false }: { markOnly?: boolean }) {
@@ -17,7 +18,7 @@ export function BrandLogo({ markOnly = false }: { markOnly?: boolean }) {
     >
       <Image
         src={brandLogo.src}
-        alt="Soul Sync logo"
+        alt={`${brandName} logo`}
         width={brandLogo.width}
         height={brandLogo.height}
         sizes={markOnly ? "112px" : "280px"}

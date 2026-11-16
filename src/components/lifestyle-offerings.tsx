@@ -1,4 +1,5 @@
 import { services, membership, eventParticipation } from "@/lib/services";
+import { brandName } from "@/lib/brand";
 import { ChatButton } from "./chat-button";
 import { Icon } from "./icon";
 import "./lifestyle-offerings.css";
@@ -11,7 +12,7 @@ export function ServiceHighlights() {
       aria-labelledby="services-title"
     >
       <div className="landing-section-heading">
-        <span className="eyebrow">EXPLORE WITH SOUL SYNC</span>
+        <span className="eyebrow">EXPLORE WITH {brandName.toUpperCase()}</span>
         <h2 id="services-title">
           Your curiosity.
           <br />

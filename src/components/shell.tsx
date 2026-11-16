@@ -8,6 +8,7 @@ import { Modal } from "./modal";
 import { LandingShell } from "./landing-shell";
 import { useDemoStore, validBookings } from "@/lib/demo-store";
 import { partnerRegistration } from "@/lib/services";
+import { brandName } from "@/lib/brand";
 
 const navigation = [
   { path: "/", label: "Home", icon: "home" },
@@ -34,7 +35,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
   return (
     <div className="app-shell">
       <aside className="sidebar">
-        <Link href="/" className="brand" aria-label="Soul Sync home">
+        <Link href="/" className="brand" aria-label={`${brandName} home`}>
           <BrandLogo />
         </Link>
         <div className="sidebar-caption">YOUR DESIRES. YOUR BOUNDARIES.</div>
@@ -80,7 +81,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
           <Link
             href="/"
             className="space-mobile-brand"
-            aria-label="Soul Sync home"
+            aria-label={`${brandName} home`}
           >
             <BrandLogo />
           </Link>
@@ -119,7 +120,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
         <footer>
           <span>Private conversations. Personal guidance.</span>
           <span>
-            soul sync <Icon name="heart" size={12} /> 2026
+            {brandName.toLowerCase()} <Icon name="heart" size={12} /> 2026
           </span>
         </footer>
       </div>
@@ -127,7 +128,7 @@ function PersonalShell({ children }: { children: ReactNode }) {
         <Modal title={panel} onClose={() => setPanel(null)}>
           {panel === "Your updates" ? (
             <>
-              <p className="muted">Your latest Soul Sync activity</p>
+              <p className="muted">Your latest {brandName} activity</p>
               {bookings.length ? (
                 bookings.map((booking) => (
                   <div
