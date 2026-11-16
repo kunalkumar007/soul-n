@@ -7,10 +7,16 @@ import { BrandLogo } from "./brand-logo";
 import { Modal } from "./modal";
 import { LandingShell } from "./landing-shell";
 import { useDemoStore, validBookings } from "@/lib/demo-store";
+import { partnerRegistration } from "@/lib/services";
 
 const navigation = [
   { path: "/", label: "Home", icon: "home" },
   { path: "/consultation", label: "Lifestyle guidance", icon: "chat" },
+  {
+    path: partnerRegistration.path,
+    label: partnerRegistration.label,
+    icon: "heart",
+  },
 ];
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();

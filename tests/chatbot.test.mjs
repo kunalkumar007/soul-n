@@ -29,6 +29,9 @@ const {
   validateAnswer,
 } = await import("../src/lib/chat-intake.ts");
 const { POST } = await import("../src/app/api/chat-intake/route.ts");
+const { getPartnerRegistrationTopic, partnerRegistration } = await import(
+  "../src/lib/services.ts"
+);
 
 const submission = {
   name: "Jamie",
@@ -163,6 +166,39 @@ test("empty answers, skipped steps, and rapid repeated answers cannot advance th
   const named = answerIntake(emptyIntake, "name", "Jamie");
   assert.equal(answerIntake(named, "name", "Jamie"), named);
   assert.equal(getIntakeStep(named), "email");
+});
+
+test("partner requests retain gender, fee, payment terms, and service scope through review and email delivery", async () => {
+  configureEmail();
+  providerResponse();
+  for (const option of partnerRegistration.options) {
+    const requirement = getPartnerRegistrationTopic(option);
+    let intake = selectIntakeTopic(emptyIntake, requirement);
+    assert.equal(getIntakeStep(intake), "name");
+    assert.equal(validSubmission(intake), false);
+    intake = answerIntake(intake, "name", submission.name);
+    intake = answerIntake(intake, "email", submission.email);
+    intake = answerIntake(intake, "phone", "");
+    const restored = JSON.parse(JSON.stringify(intake));
+    assert.equal(validIntake(restored), true);
+    assert.equal(getIntakeStep(restored), null);
+    assert.equal(restored.requirement, requirement);
+    const response = await POST(
+      request({ ...restored, submissionId: submission.submissionId }),
+    );
+    assert.equal(response.status, 200);
+    assert.deepEqual(await response.json(), { sent: true });
+    const email = JSON.parse(
+      globalThis.fetch.mock.calls.at(-1).arguments[1].body,
+    );
+    assert.ok(email.text.includes(option.topic));
+    assert.ok(email.text.includes(`Registration fee: ${partnerRegistration.fee}`));
+    assert.ok(email.text.includes(partnerRegistration.purpose));
+    assert.ok(email.text.includes(partnerRegistration.paymentNote));
+    assert.ok(email.text.includes(partnerRegistration.refundPolicy));
+    assert.equal(email.reply_to, submission.email);
+    assert.deepEqual(email.to, [config.to]);
+  }
 });
 
 test("all answer limits accept the boundary and reject longer answers", () => {

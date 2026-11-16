@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef, useState, type ReactNode } from "react";
 import { Icon } from "./icon";
 import { BrandLogo } from "./brand-logo";
+import { partnerRegistration } from "@/lib/services";
 
 export function LandingShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -49,6 +50,9 @@ export function LandingShell({ children }: { children: ReactNode }) {
           <Link href="/consultation">
             Lifestyle guidance <span>↗</span>
           </Link>
+          <Link href={partnerRegistration.path}>
+            {partnerRegistration.label} <span>↗</span>
+          </Link>
         </nav>
         <Link href="/consultation" className="primary-button">
           Let’s explore <Icon name="arrow" size={17} />
@@ -64,6 +68,9 @@ export function LandingShell({ children }: { children: ReactNode }) {
           <a href="#membership">Membership</a>
           <a href="#privacy">Your privacy</a>
           <Link href="/consultation">Lifestyle guidance</Link>
+          <Link href={partnerRegistration.path}>
+            {partnerRegistration.label}
+          </Link>
         </nav>
         <span>© 2026 Soul Sync</span>
       </footer>

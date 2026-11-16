@@ -94,11 +94,11 @@ export function Consultation() {
         <div className="expert-feature">
           <div className="expert-image">
             <Image
-              src="/images/therapist.jpg"
+              src="/images/midnight-fantasy.webp"
               fill
               sizes="(max-width: 700px) 85vw, 35vw"
               preload
-              alt="A welcoming lifestyle guide"
+              alt="Illustration of an intimate couple with a fantasy thought bubble"
             />
             <div className="expert-sticker">
               a human touch.

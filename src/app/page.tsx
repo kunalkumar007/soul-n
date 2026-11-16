@@ -224,8 +224,8 @@ export default function Home() {
         <div className="guidance-visual">
           <div className="guidance-portrait">
             <Image
-              src="/images/therapist.jpg"
-              alt="A welcoming lifestyle guide"
+              src="/images/midnight-fantasy.webp"
+              alt="Illustration of an intimate couple with a fantasy thought bubble"
               fill
               sizes="(max-width: 700px) 80vw, 35vw"
             />

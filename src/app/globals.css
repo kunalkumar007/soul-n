@@ -3290,7 +3290,7 @@ footer.landing-footer {
     display: none;
   }
 }
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   .landing-header {
     padding-top: 23px;
     padding-bottom: 23px;
@@ -3358,6 +3358,8 @@ footer.landing-footer {
     display: block;
     color: #ff8abb;
   }
+}
+@media (max-width: 850px) {
   .connection-hero-content {
     max-width: 520px;
   }
@@ -3639,7 +3641,7 @@ footer.landing-footer {
     margin: auto;
   }
   .guidance-portrait {
-    aspect-ratio: 4 / 4.5;
+    aspect-ratio: 4 / 5;
   }
   .guidance-note {
     padding: 18px 23px;

@@ -58,6 +58,17 @@ Run the chatbot behavior and mocked email tests with `npm run test:chatbot`.
 The public endpoint does not maintain a distributed rate limiter.
 
 The site provides kink and lifestyle guidance, without public profiles or matching.
+The **Kink partner** tab at `/register` starts a private registration request.
+Choosing Male or Female opens the existing chatbot with that registration topic
+selected. Visitors add a nickname and email (phone is optional), review their
+details, and choose to send the request to the team. It uses the same draft,
+validation, email delivery, and retry handling described above. A request does
+not create a public profile or automatically confirm registration.
+The registration fee is ₹50,000. The page and registration request state that
+this is for fun and kink exploration, not paid sex services; visitors talk with
+the team first and pay only when fully convinced. If the team cannot fulfil
+the requirement, the full payment is refunded. These terms and the fee live in
+`partnerRegistration` in `src/lib/services.ts`. The site does not collect payment.
 Legacy `/discover` and `/connections` URLs redirect to the homepage.
 
 ## Services, membership, and events
